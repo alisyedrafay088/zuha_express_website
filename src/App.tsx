@@ -1,5 +1,6 @@
 import { Header } from "./components/Header";
 import { Hero } from "./components/Hero";
+import { PromoAd } from "./components/PromoAd";
 import {
   Coverage,
   DashboardCta,
@@ -22,6 +23,7 @@ export default function App() {
       <Header />
       <main>
         <Hero />
+        <PromoAd />
         <TrustStrip />
         <Services />
         <WhyChoose />
