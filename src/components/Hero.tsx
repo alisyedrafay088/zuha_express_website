@@ -3,12 +3,9 @@ import { ArrowRight } from "lucide-react";
 import { LOGIN_URL, trackingUrl } from "../config";
 import "./Hero.css";
 
-/**
- * Doorstep delivery photo (Unsplash License, by Vitaly Gariev). The right ~27% (the
- * recipient) is always cropped off-screen, so only the courier and parcel are shown.
- */
+/** Delivery rider in a cap carrying parcels, Karachi (Unsplash License, by Fotos). */
 const HERO_PHOTO =
-  "https://images.unsplash.com/photo-1758523670564-d1d6a734dc0b?w=2000&h=1333&fit=crop&auto=format&q=78";
+  "https://images.unsplash.com/photo-1659353741638-9bbe25cd8715?w=1800&h=1200&fit=crop&auto=format&q=80";
 
 export function Hero() {
   const [trackingId, setTrackingId] = useState("");

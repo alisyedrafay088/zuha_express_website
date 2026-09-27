@@ -10,17 +10,17 @@
   align-items: center;
 }
 
-/* Full-bleed 3:2 photo (so the box label stays glued to the parcel). It is shifted right by
-   27% of its own width so the recipient on the right of the shot is always cropped away. */
+/* The photo keeps its 3:2 ratio (so the box label stays glued to the parcel) and sits on
+   the right; its left edge fades into the dark background behind the text. */
 .hero-photo {
   position: absolute;
-  right: 0;
+  right: -6%;
   top: 50%;
-  width: calc(var(--hero-h) * 1.5 * 1.12);
+  width: calc(var(--hero-h) * 1.5);
   aspect-ratio: 3 / 2;
-  transform: translate(27%, -50%);
-  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 18%);
-  mask-image: linear-gradient(90deg, transparent 0%, #000 18%);
+  transform: translateY(-50%);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 13%);
+  mask-image: linear-gradient(90deg, transparent 0%, #000 13%);
 }
 
 .hero-photo img {
@@ -30,26 +30,25 @@
   object-fit: cover;
 }
 
-/* "Printed" branding on the front face of the big parcel (photo coords in %) */
+/* "Printed" branding on the front face of the big bottom parcel (photo coords in %) */
 .hero-box-print {
   position: absolute;
-  left: 52.5%;
-  top: 67%;
-  width: 15%;
+  left: 19.5%;
+  top: 76.5%;
+  width: 21%;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.2em;
   color: #173a5e;
-  font-size: clamp(9px, 1.05vw, 17px);
-  transform: rotate(-1.5deg) skewY(-2deg);
+  font-size: clamp(9px, 1.1vw, 17px);
   mix-blend-mode: multiply;
-  opacity: 0.9;
+  opacity: 0.92;
   pointer-events: none;
 }
 
 .hero-box-truck {
-  width: 2.6em;
+  width: 2.8em;
   height: auto;
   color: #f5a623;
 }
@@ -77,9 +76,7 @@
 }
 
 .hero-shade {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, rgba(8, 20, 34, 0.96) 0%, rgba(8, 20, 34, 0.88) 34%, rgba(8, 20, 34, 0.3) 56%, rgba(8, 20, 34, 0) 70%);
+  display: none;
 }
 
 .hero-banner-inner {
@@ -173,7 +170,7 @@
 }
 
 /* Tablets / phones: text on dark on top, photo below */
-@media (max-width: 900px) {
+@media (max-width: 1100px) {
   .hero-banner {
     height: auto;
     flex-direction: column;
@@ -191,15 +188,14 @@
   }
 
   /* Photo becomes its own block, cropped to the delivery scene */
-  /* show the courier and the whole parcel (photo x 20–73%), never the recipient */
   .hero-photo {
     position: relative;
     order: 1;
     top: auto;
     right: auto;
     transform: none;
-    width: 188.7%;
-    margin-left: -37.7%;
+    width: 125%;
+    margin-left: -8%;
     -webkit-mask-image: none;
     mask-image: none;
   }
@@ -216,7 +212,7 @@
   }
 
   .hero-box-print {
-    font-size: clamp(8px, 2.2vw, 16px);
+    font-size: clamp(7px, 1.9vw, 16px);
   }
 }
 
