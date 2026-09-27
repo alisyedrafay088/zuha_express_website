@@ -19,6 +19,7 @@ import { Footer } from "./components/Footer";
 import { Partners } from "./components/Partners";
 import { Integrations } from "./components/Integrations";
 import { KeySolutions } from "./components/KeySolutions";
+import { SellerPortal } from "./components/SellerPortal";
 
 export default function App() {
   return (
@@ -30,6 +31,7 @@ export default function App() {
         <TrustStrip />
         <Services />
         <KeySolutions />
+        <SellerPortal />
         <Partners />
         <WhyChoose />
         <Integrations />
