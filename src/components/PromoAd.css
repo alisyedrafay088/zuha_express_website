@@ -413,14 +413,29 @@
   gap: 4px;
 }
 
-.ad-progress span {
+.ad-controls .ad-progress button {
+  width: auto;
+  height: 16px;
+  padding: 6px 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.ad-progress-track {
+  display: block;
   height: 4px;
   border-radius: 4px;
   background: rgba(255, 255, 255, 0.18);
   overflow: hidden;
 }
 
-.ad-progress i {
+.ad-progress button:hover .ad-progress-track {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.ad-progress-track i {
   display: block;
   height: 100%;
   background: var(--orange);

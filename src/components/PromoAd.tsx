@@ -452,9 +452,20 @@ export function PromoAd() {
             </button>
             <div className="ad-progress">
               {SCENES.map((s, i) => (
-                <span key={s.id} style={{ flex: s.ms }}>
-                  <i style={{ width: i < index ? "100%" : i === index ? `${(local / s.ms) * 100}%` : "0%" }} />
-                </span>
+                <button
+                  key={s.id}
+                  type="button"
+                  style={{ flex: s.ms }}
+                  onClick={() => {
+                    setTime(SCENES.slice(0, i).reduce((sum, scene) => sum + scene.ms, 0));
+                    setPlaying(true);
+                  }}
+                  aria-label={`Jump to scene ${i + 1}`}
+                >
+                  <span className="ad-progress-track">
+                    <i style={{ width: i < index ? "100%" : i === index ? `${(local / s.ms) * 100}%` : "0%" }} />
+                  </span>
+                </button>
               ))}
             </div>
           </div>
