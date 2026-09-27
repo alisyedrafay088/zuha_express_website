@@ -33,38 +33,108 @@
   margin-bottom: 1.5rem;
 }
 
-/* one big slide per feature */
+/* sticky scroll showcase: one feature on screen at a time */
+.pscroll {
+  position: relative;
+}
+
+.pscroll-sticky {
+  position: sticky;
+  top: var(--header-h, 104px);
+  height: calc(100vh - var(--header-h, 104px));
+  display: flex;
+  align-items: center;
+}
+
+.pscroll-stage {
+  position: relative;
+  width: 100%;
+  height: min(520px, 100%);
+}
+
 .pslide {
+  position: absolute;
+  inset: 0;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 3rem;
   align-items: center;
-  min-height: 460px;
-  padding: 2.5rem 0;
+  pointer-events: none;
 }
 
 .pslide > * {
   min-width: 0;
 }
 
+.pslide.active {
+  pointer-events: auto;
+}
+
 .pslide-copy,
-.pslide-visual {
+.pslide-visual,
+.pslide-card {
+  transition: opacity 0.55s ease, transform 0.65s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* waiting below: slides up into place */
+.pslide.after .pslide-copy,
+.pslide.after .pslide-visual {
   opacity: 0;
-  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transform: translateY(60px);
 }
 
-.pslide-copy {
-  transform: translateX(-40px);
+/* already seen: drifts up and away */
+.pslide.before .pslide-copy,
+.pslide.before .pslide-visual {
+  opacity: 0;
+  transform: translateY(-60px);
 }
 
-.pslide-visual {
-  transform: translateX(40px) scale(0.96);
-}
-
-.pslide.in .pslide-copy,
-.pslide.in .pslide-visual {
+.pslide.active .pslide-copy,
+.pslide.active .pslide-visual {
   opacity: 1;
   transform: none;
+}
+
+.pslide.active .pslide-visual {
+  transition-delay: 0.08s;
+}
+
+.pslide .pslide-card {
+  opacity: 0;
+  transform: translateY(24px) scale(0.95);
+}
+
+.pslide.active .pslide-card {
+  opacity: 1;
+  transform: none;
+  transition-delay: 0.3s;
+}
+
+.pscroll-dots {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.pscroll-dots button {
+  width: 10px;
+  height: 10px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: #cbd5e1;
+  cursor: pointer;
+  transition: height 0.3s ease, background 0.3s ease;
+}
+
+.pscroll-dots button.active {
+  height: 28px;
+  background: var(--orange);
 }
 
 .pslide-icon {
@@ -129,14 +199,6 @@
   left: 4%;
   top: 2%;
   width: 230px;
-  transition: transform 0.7s 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.7s 0.25s ease;
-  opacity: 0;
-  transform: translateY(20px);
-}
-
-.pslide.in .pslide-card {
-  opacity: 1;
-  transform: none;
 }
 
 /* the floating app card */
@@ -257,11 +319,35 @@
 }
 
 @media (max-width: 900px) {
+  .pscroll-stage {
+    height: 100%;
+    max-height: 760px;
+  }
+
   .pslide {
     grid-template-columns: 1fr;
-    gap: 1.5rem;
-    min-height: 0;
-    padding: 2rem 0;
+    grid-template-rows: auto auto;
+    align-content: center;
+    gap: 1rem;
+  }
+
+  .pslide-copy {
+    order: 2;
+    text-align: center;
+  }
+
+  .pslide-copy p {
+    margin: 0 auto;
+  }
+
+  .pslide-icon {
+    margin: 0 auto 0.8rem;
+    width: 52px;
+    height: 52px;
+  }
+
+  .pscroll-dots {
+    right: -6px;
   }
 
   .pslide-visual {
@@ -277,7 +363,15 @@
   }
 
   .pslide-visual {
-    height: 330px;
+    height: 300px;
+  }
+
+  .pslide-copy h3 {
+    font-size: 1.7rem;
+  }
+
+  .pslide-copy p {
+    font-size: 1.05rem;
   }
 
   .pslide-circle {
@@ -310,8 +404,6 @@
   .pslide-visual,
   .pslide-card {
     transition: none;
-    opacity: 1;
-    transform: none;
   }
 
   .pcard-route-line svg {

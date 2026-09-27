@@ -192,29 +192,10 @@ const RIDER_FEATURES: Feature[] = [
 
 /* ---------- Layout ---------- */
 
-function FeatureSlide({ feature, figure }: { feature: Feature; figure: ReactNode }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.25 },
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
+function FeatureSlide({ feature, figure, state }: { feature: Feature; figure: ReactNode; state: string }) {
   const Icon = feature.icon;
   return (
-    <div ref={ref} className={`pslide ${visible ? "in" : ""}`}>
+    <div className={`pslide ${state}`} aria-hidden={state !== "active"}>
       <div className="pslide-copy">
         <span className="pslide-icon">
           <Icon size={34} />
@@ -226,6 +207,75 @@ function FeatureSlide({ feature, figure }: { feature: Feature; figure: ReactNode
         <div className="pslide-circle" />
         <div className="pslide-figure">{figure}</div>
         <div className="pslide-card">{feature.card}</div>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Lobb-style scroll showcase: the stage sticks to the screen while the page scrolls through a
+ * tall track, and exactly one feature is shown at a time — scrolling further swaps to the next.
+ */
+function FeatureScroller({ features, figure }: { features: Feature[]; figure: ReactNode }) {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [active, setActive] = useState(0);
+
+  useEffect(() => {
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const track = trackRef.current;
+      if (!track) return;
+      const rect = track.getBoundingClientRect();
+      const scrollable = rect.height - window.innerHeight;
+      const progress = scrollable > 0 ? Math.min(1, Math.max(0, -rect.top / scrollable)) : 0;
+      setActive(Math.min(features.length - 1, Math.floor(progress * features.length)));
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      cancelAnimationFrame(frame);
+    };
+  }, [features.length]);
+
+  function jumpTo(index: number) {
+    const track = trackRef.current;
+    if (!track) return;
+    const top = track.getBoundingClientRect().top + window.scrollY;
+    const step = (track.offsetHeight - window.innerHeight) / features.length;
+    window.scrollTo({ top: top + step * index + step / 2, behavior: "smooth" });
+  }
+
+  return (
+    <div className="pscroll" ref={trackRef} style={{ height: `${features.length * 90 + 20}vh` }}>
+      <div className="pscroll-sticky">
+        <div className="pscroll-stage">
+          {features.map((feature, i) => (
+            <FeatureSlide
+              key={feature.title}
+              feature={feature}
+              figure={figure}
+              state={i === active ? "active" : i < active ? "before" : "after"}
+            />
+          ))}
+        </div>
+        <div className="pscroll-dots">
+          {features.map((feature, i) => (
+            <button
+              key={feature.title}
+              type="button"
+              className={i === active ? "active" : ""}
+              onClick={() => jumpTo(i)}
+              aria-label={feature.title}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -256,9 +306,7 @@ function PartnerGroup({
           {cta.label}
         </a>
       </div>
-      {features.map((feature) => (
-        <FeatureSlide key={feature.title} feature={feature} figure={figure} />
-      ))}
+      <FeatureScroller features={features} figure={figure} />
     </div>
   );
 }
