@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { CheckCircle2, MapPin, Pause, Play, RotateCcw, Truck } from "lucide-react";
+import { CheckCircle2, MapPin, Pause, Play, RotateCcw, Truck, Volume2, VolumeX } from "lucide-react";
 import { LOGIN_URL } from "../config";
 import "./PromoAd.css";
+import { AdMusic } from "./adAudio";
 
 /** Each scene's length in ms. The ad is a sequence of these, looping forever. */
 const SCENES = [
@@ -232,7 +233,10 @@ export function PromoAd() {
   const [time, setTime] = useState(0);
   const [playing, setPlaying] = useState(true);
   const [inView, setInView] = useState(false);
+  const [soundOn, setSoundOn] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
+  const musicRef = useRef<AdMusic | null>(null);
+  const lastCue = useRef({ index: -1, booked: false, delivered: false });
 
   useEffect(() => {
     const el = rootRef.current;
@@ -256,6 +260,30 @@ export function PromoAd() {
 
   const { index, local } = sceneAt(time);
   const scene = SCENES[index].id;
+  const active = soundOn && playing && inView;
+
+  useEffect(() => {
+    if (!soundOn) return;
+    const music = (musicRef.current ??= new AdMusic());
+    if (active) music.start();
+    else music.stop();
+  }, [soundOn, active]);
+
+  useEffect(() => () => musicRef.current?.dispose(), []);
+
+  // Sound effects cued off the ad timeline: a whoosh on every scene change, a ding on "Booked" and "Delivered".
+  useEffect(() => {
+    const music = musicRef.current;
+    const cue = lastCue.current;
+    const booked = scene === "booking" && local > 2700;
+    const delivered = scene === "delivery" && local > 2400;
+    if (active && music) {
+      if (index !== cue.index && cue.index !== -1) music.sfx("whoosh");
+      if (booked && !cue.booked) music.sfx("ding");
+      if (delivered && !cue.delivered) music.sfx("ding");
+    }
+    lastCue.current = { index, booked, delivered };
+  }, [active, index, local, scene]);
 
   return (
     <section className="section ad-section" id="ad">
@@ -265,6 +293,11 @@ export function PromoAd() {
           <p>Dekho kaise ZUHA Express aap ki delivery aur COD ko aasaan banata hai.</p>
         </div>
         <div className="ad-frame" ref={rootRef}>
+          {!soundOn && (
+            <button type="button" className="ad-sound-prompt" onClick={() => setSoundOn(true)}>
+              <Volume2 size={16} /> Sound on
+            </button>
+          )}
           <div className={`ad-stage ${playing ? "" : "paused"}`} key={index}>
             {scene === "hook" && <Hook />}
             {scene === "problems" && <Problems />}
@@ -283,10 +316,19 @@ export function PromoAd() {
               onClick={() => {
                 setTime(0);
                 setPlaying(true);
+                musicRef.current?.resetBeat();
               }}
               aria-label="Replay"
             >
               <RotateCcw size={16} />
+            </button>
+            <button
+              type="button"
+              className={`ad-sound ${soundOn ? "on" : ""}`}
+              onClick={() => setSoundOn((on) => !on)}
+              aria-label={soundOn ? "Mute" : "Sound on"}
+            >
+              {soundOn ? <Volume2 size={16} /> : <VolumeX size={16} />}
             </button>
             <div className="ad-progress">
               {SCENES.map((s, i) => (

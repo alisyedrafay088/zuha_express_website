@@ -556,3 +556,40 @@
     animation-duration: 0.01ms !important;
   }
 }
+
+/* sound */
+.ad-controls .ad-sound.on {
+  background: var(--orange);
+  color: var(--navy-dark);
+}
+
+.ad-sound-prompt {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 5;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border: 0;
+  border-radius: 999px;
+  padding: 0.45rem 0.9rem;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--navy-dark);
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+  animation: ad-sound-pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes ad-sound-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.06);
+  }
+}
