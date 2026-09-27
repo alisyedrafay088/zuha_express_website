@@ -44,7 +44,7 @@ function countUp(target: number, local: number, from: number, duration: number) 
 function Hook() {
   return (
     <div className="ad-scene ad-center ad-dark">
-      <p className="ad-kicker ad-pop">Online business chala rahe ho?</p>
+      <p className="ad-kicker ad-pop">E-commerce store chala rahe ho?</p>
       <h3 className="ad-huge ad-slam">
         Parcel bhejna ab <span className="ad-orange">easy.</span>
       </h3>
