@@ -82,6 +82,40 @@ function TrackingCard() {
   );
 }
 
+/* ---------- Photos (Unsplash License: free for commercial use) ---------- */
+
+interface Photo {
+  src: string;
+  alt: string;
+  credit: string;
+}
+
+const unsplash = (id: string) =>
+  `https://images.unsplash.com/${id}?w=720&h=720&fit=crop&crop=faces&auto=format&q=75`;
+
+const PHOTOS = {
+  riderBoxes: {
+    src: unsplash("photo-1659353741091-e0274bb50905"),
+    alt: "Smiling delivery rider in Karachi holding parcels",
+    credit: "Fotos",
+  },
+  riderPointing: {
+    src: unsplash("photo-1659353739926-4c7df1a645a6"),
+    alt: "Delivery rider in Karachi carrying boxes",
+    credit: "Fotos",
+  },
+  supportAgent: {
+    src: unsplash("photo-1603714228681-b399854b8f80"),
+    alt: "Support agent wearing a headset",
+    credit: "LumenSoft Technologies",
+  },
+  phoneUser: {
+    src: unsplash("photo-1745233916988-593609ed1b53"),
+    alt: "Man smiling while checking his phone",
+    credit: "Ali Pli",
+  },
+} satisfies Record<string, Photo>;
+
 /* ---------- Features ---------- */
 
 interface Feature {
@@ -89,6 +123,7 @@ interface Feature {
   title: string;
   text: string;
   card: ReactNode;
+  photo: Photo;
 }
 
 const SELLER_FEATURES: Feature[] = [
@@ -96,6 +131,7 @@ const SELLER_FEATURES: Feature[] = [
     icon: BadgeCheck,
     title: "Verified Truck Discovery",
     text: "Get matched with our network of CNIC-verified riders, vans and trucks for every pickup.",
+    photo: PHOTOS.riderBoxes,
     card: (
       <ListCard
         title="Verified vehicles"
@@ -111,6 +147,7 @@ const SELLER_FEATURES: Feature[] = [
     icon: Tags,
     title: "Competitive Pricing",
     text: "Get the best rate for every shipment — a flat PKR 250 per booking with no hidden fees.",
+    photo: PHOTOS.phoneUser,
     card: (
       <ListCard
         title="Delivery charges"
@@ -126,12 +163,14 @@ const SELLER_FEATURES: Feature[] = [
     icon: Navigation,
     title: "Real-time Tracking",
     text: "Track shipment location and get timely alerts for any delays and on-time deliveries.",
+    photo: PHOTOS.phoneUser,
     card: <TrackingCard />,
   },
   {
     icon: Headphones,
     title: "24/7 Online Support",
     text: "Ensure smooth operations with 24x7 assistance from our dedicated admin team.",
+    photo: PHOTOS.supportAgent,
     card: <SupportCard lines={["Parcel Booking", "COD & Payments", "Pickup Request"]} escalation="Account Manager" />,
   },
 ];
@@ -141,6 +180,7 @@ const RIDER_FEATURES: Feature[] = [
     icon: TrendingUp,
     title: "Consistent Load Volume",
     text: "Our growing network of online sellers keeps your bike, van or truck busy every day.",
+    photo: PHOTOS.riderPointing,
     card: (
       <ListCard
         title="Today's loads"
@@ -156,6 +196,7 @@ const RIDER_FEATURES: Feature[] = [
     icon: PercentCircle,
     title: "Zero Commissions",
     text: "Every trip pays more because we don't charge you any commission.",
+    photo: PHOTOS.riderBoxes,
     card: (
       <ListCard
         title="Trip earnings"
@@ -171,6 +212,7 @@ const RIDER_FEATURES: Feature[] = [
     icon: CalendarCheck,
     title: "On-time Payment Settlements",
     text: "Get paid on time, every time, with fast and transparent settlements.",
+    photo: PHOTOS.phoneUser,
     card: (
       <ListCard
         title="Payments"
@@ -186,6 +228,7 @@ const RIDER_FEATURES: Feature[] = [
     icon: Headphones,
     title: "24/7 Dedicated Support",
     text: "Keep moving without trouble with our 24x7 support whenever you need.",
+    photo: PHOTOS.supportAgent,
     card: <SupportCard lines={["Rider Helpline", "Vehicle Breakdown", "Payment Queries"]} escalation="Area Manager" />,
   },
 ];
@@ -194,6 +237,7 @@ const RIDER_FEATURES: Feature[] = [
 
 function FeatureSlide({ feature, figure, state }: { feature: Feature; figure: ReactNode; state: string }) {
   const Icon = feature.icon;
+  const [photoFailed, setPhotoFailed] = useState(false);
   return (
     <div className={`pslide ${state}`} aria-hidden={state !== "active"}>
       <div className="pslide-copy">
@@ -205,7 +249,17 @@ function FeatureSlide({ feature, figure, state }: { feature: Feature; figure: Re
       </div>
       <div className="pslide-visual">
         <div className="pslide-circle" />
-        <div className="pslide-figure">{figure}</div>
+        {photoFailed ? (
+          <div className="pslide-figure">{figure}</div>
+        ) : (
+          <img
+            className="pslide-photo"
+            src={feature.photo.src}
+            alt={feature.photo.alt}
+            loading="lazy"
+            onError={() => setPhotoFailed(true)}
+          />
+        )}
         <div className="pslide-card">{feature.card}</div>
       </div>
     </div>
@@ -343,6 +397,10 @@ export function Partners() {
           figure={<RiderFigure />}
           cta={{ label: "Join as a Rider", href: WHATSAPP_URL }}
         />
+        <p className="partners-credit">
+          Photos:{" "}
+          {[...new Set(Object.values(PHOTOS).map((photo) => photo.credit))].join(", ")} on Unsplash
+        </p>
       </div>
     </section>
   );
