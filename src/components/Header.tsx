@@ -11,6 +11,7 @@ const ANNOUNCEMENTS = [
 const NAV_LINKS = [
   { href: "#services", label: "Services" },
   { href: "#features", label: "Features" },
+  { href: "#integrations", label: "Integrations" },
   { href: "#how-it-works", label: "How it Works" },
   { href: "#coverage", label: "Coverage" },
   { href: "#faq", label: "FAQ" },

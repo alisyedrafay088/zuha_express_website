@@ -527,6 +527,10 @@ export function Testimonials() {
 
 const FAQS = [
   {
+    q: "Can I connect my Shopify, WooCommerce or Daraz store?",
+    a: "Yes. Export your orders from any e-commerce platform as a CSV or Excel file and bulk-upload them in the ZUHA customer portal — all parcels, tracking numbers and airway bills are created in one go. For high-volume stores we can also set up a direct store or API connection; message us on WhatsApp to discuss.",
+  },
+  {
     q: "What is ZUHA Express?",
     a: "ZUHA Express is a courier service for eCommerce and online sellers in Pakistan. You book parcels from our customer portal, we pick them up, deliver them to your customers, collect cash on delivery (COD) and remit it back to you.",
   },

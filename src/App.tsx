@@ -17,6 +17,7 @@ import {
 } from "./components/Sections";
 import { Footer } from "./components/Footer";
 import { Partners } from "./components/Partners";
+import { Integrations } from "./components/Integrations";
 
 export default function App() {
   return (
@@ -29,6 +30,7 @@ export default function App() {
         <Services />
         <Partners />
         <WhyChoose />
+        <Integrations />
         <Solutions />
         <Features />
         <DashboardCta />
