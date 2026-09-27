@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from "react";
-import { ArrowRight, Banknote, CheckCircle2, MapPin, PackageCheck, Search, Truck } from "lucide-react";
+import { ArrowRight, Banknote, CheckCircle2, MapPin, PackageCheck, Plane, Search, Truck } from "lucide-react";
 import { LOGIN_URL, trackingUrl } from "../config";
 
 export function Hero() {
@@ -13,6 +13,12 @@ export function Hero() {
 
   return (
     <section className="hero" id="top">
+      <div className="hero-sky" aria-hidden="true">
+        <div className="hero-plane">
+          <span className="hero-plane-trail" />
+          <Plane size={34} />
+        </div>
+      </div>
       <div className="container hero-grid">
         <div className="hero-copy">
           <p className="hero-kicker">
@@ -58,7 +64,7 @@ export function Hero() {
                 <span>Karachi</span>
               </div>
               <div className="hero-route-line">
-                <Truck size={18} />
+                <Truck size={18} className="hero-route-truck" />
               </div>
               <div>
                 <MapPin size={16} />
