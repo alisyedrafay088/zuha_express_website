@@ -1,0 +1,312 @@
+/* Scene timeline (7s):
+   0.0–2.3s  big ZUHA / EXPRESS type with the truck parked across it
+   2.3–4.3s  truck drives off to the left, type fades, tagline arrives
+   4.3–7.0s  cut to the truck's rear, doors swing open, camera pushes in on the parcels */
+
+.jr {
+  background: #f4f6f9;
+  container-type: inline-size;
+  padding: 0;
+  overflow: hidden;
+}
+
+.jr-hero {
+  position: absolute;
+  inset: 0;
+  animation: jr-hero-out 0.5s 4.2s ease-in both;
+}
+
+.jr-word {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0;
+  text-align: center;
+  font-size: 17cqw;
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  color: var(--navy);
+  animation: jr-word-in 0.6s ease-out both, jr-word-out 0.6s 2.4s ease-in forwards;
+}
+
+.jr-word-top {
+  top: 10%;
+}
+
+.jr-word-bottom {
+  bottom: 8%;
+  color: var(--orange);
+  animation-delay: 0.15s, 2.5s;
+}
+
+.jr-stats {
+  position: absolute;
+  left: 5%;
+  top: 38%;
+  display: grid;
+  gap: 0.35rem;
+  font-size: 1.5cqw;
+  color: var(--muted);
+  z-index: 2;
+  animation: ad-rise 0.4s 0.6s ease-out both, jr-word-out 0.4s 2.3s ease-in forwards;
+}
+
+.jr-stats b {
+  color: var(--navy);
+}
+
+.jr-truck {
+  position: absolute;
+  left: 22%;
+  top: 31%;
+  width: 62%;
+  z-index: 1;
+  animation: jr-truck-in 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both, jr-truck-out 1.8s 2.3s cubic-bezier(0.55, 0, 0.8, 0.4) forwards;
+}
+
+.jr-truck-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 18px 20px rgba(15, 39, 64, 0.2));
+}
+
+.jr-wheel {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: wheel-spin 0.35s linear 2.3s infinite;
+}
+
+.jr-tagline {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  font-size: 7cqw;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--navy);
+  animation: jr-tagline 0.6s 3.2s ease-out both;
+}
+
+.jr-tagline span {
+  text-align: center;
+}
+
+.jr-tagline em {
+  font-style: normal;
+  color: var(--orange);
+}
+
+/* rear-door close-up */
+.jr-rear {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  background: radial-gradient(circle at 50% 40%, #24527f 0%, var(--navy-dark) 75%);
+  animation: jr-rear-in 0.5s 4.3s ease-out both;
+}
+
+.jr-rear-frame {
+  position: relative;
+  width: min(46%, 380px);
+  aspect-ratio: 1.25;
+  border: 10px solid #cbd5e1;
+  border-bottom-width: 16px;
+  border-radius: 8px;
+  background: #3b2f25;
+  overflow: hidden;
+  perspective: 600px;
+  animation: jr-push-in 2.6s 4.4s ease-in-out both;
+}
+
+.jr-cargo {
+  position: absolute;
+  inset: 8%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 6%;
+}
+
+.jr-cargo span {
+  display: grid;
+  place-items: end center;
+  padding-bottom: 6%;
+  border-radius: 4px;
+  background:
+    linear-gradient(90deg, transparent 44%, rgba(0, 0, 0, 0.15) 44% 56%, transparent 56%),
+    #c8955f;
+  color: #3b2f25;
+  font-family: ui-monospace, "Cascadia Code", monospace;
+  font-size: 1.1cqw;
+  font-weight: 700;
+  animation: ad-pop 0.35s ease-out both;
+}
+
+.jr-door {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 22%, rgba(15, 39, 64, 0.12) 22% 24%),
+    #f8fafc;
+  border: 2px solid #cbd5e1;
+}
+
+.jr-door-left {
+  left: 0;
+  transform-origin: left center;
+  animation: jr-door-left 0.8s 4.8s cubic-bezier(0.3, 0.7, 0.3, 1) both;
+}
+
+.jr-door-right {
+  right: 0;
+  transform-origin: right center;
+  animation: jr-door-right 0.8s 4.8s cubic-bezier(0.3, 0.7, 0.3, 1) both;
+}
+
+.jr-door-left::after,
+.jr-door-right::after {
+  content: "";
+  position: absolute;
+  top: 45%;
+  width: 6px;
+  height: 18%;
+  border-radius: 3px;
+  background: var(--orange);
+}
+
+.jr-door-left::after {
+  right: 10%;
+}
+
+.jr-door-right::after {
+  left: 10%;
+}
+
+.jr-rear-caption {
+  margin: 0;
+  color: var(--white);
+  font-size: 3.6cqw;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  animation: ad-rise 0.5s 5.6s ease-out both;
+}
+
+.jr-rear-caption span {
+  color: var(--orange);
+}
+
+@keyframes jr-word-in {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes jr-word-out {
+  to {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes jr-truck-in {
+  from {
+    opacity: 0;
+    transform: translateX(40%);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes jr-truck-out {
+  to {
+    transform: translateX(-190%);
+  }
+}
+
+@keyframes jr-tagline {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
+}
+
+@keyframes jr-hero-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes jr-rear-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes jr-push-in {
+  from {
+    transform: scale(0.85);
+  }
+  to {
+    transform: scale(1.12);
+  }
+}
+
+@keyframes jr-door-left {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(-100deg);
+  }
+}
+
+@keyframes jr-door-right {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(100deg);
+  }
+}
+
+@media (max-width: 640px) {
+  .jr-truck {
+    left: 5%;
+    width: 90%;
+    top: 36%;
+  }
+
+  .jr-stats {
+    display: none;
+  }
+
+  .jr-rear-frame {
+    width: 72%;
+  }
+}

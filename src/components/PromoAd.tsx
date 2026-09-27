@@ -5,12 +5,14 @@ import "./PromoAd.css";
 import "./PromoAdFeatures.css";
 import { AdMusic } from "./adAudio";
 import { RidersScene, SellersScene, SupportScene } from "./PromoAdPartners";
+import { JourneyScene } from "./PromoAdJourney";
 
 /** Each scene's length in ms. The ad is a sequence of these, looping forever. */
 const SCENES = [
   { id: "hook", ms: 3000 },
   { id: "problems", ms: 4200 },
   { id: "reveal", ms: 3000 },
+  { id: "journey", ms: 7000 },
   { id: "booking", ms: 4200 },
   { id: "awb", ms: 3800 },
   { id: "delivery", ms: 3800 },
@@ -401,7 +403,7 @@ export function PromoAd() {
     <section className="section ad-section" id="ad">
       <div className="container">
         <div className="section-head">
-          <h2>ZUHA Express — 45 seconds mein</h2>
+          <h2>ZUHA Express — 1 minute se kam mein</h2>
           <p>Dekho kaise ZUHA Express aap ki delivery aur COD ko aasaan banata hai.</p>
         </div>
         <div className="ad-frame" ref={rootRef}>
@@ -414,6 +416,7 @@ export function PromoAd() {
             {scene === "hook" && <Hook />}
             {scene === "problems" && <Problems />}
             {scene === "reveal" && <Reveal />}
+            {scene === "journey" && <JourneyScene />}
             {scene === "booking" && <Booking local={local} />}
             {scene === "awb" && <Awb local={local} />}
             {scene === "delivery" && <Delivery local={local} />}
