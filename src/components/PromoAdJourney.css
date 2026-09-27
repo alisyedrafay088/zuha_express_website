@@ -22,7 +22,7 @@
   right: 0;
   margin: 0;
   text-align: center;
-  font-size: 17cqw;
+  font-size: 15cqw;
   font-weight: 800;
   letter-spacing: -0.05em;
   line-height: 1;
@@ -31,19 +31,19 @@
 }
 
 .jr-word-top {
-  top: 10%;
+  top: 3%;
 }
 
 .jr-word-bottom {
-  bottom: 8%;
+  bottom: 2%;
   color: var(--orange);
   animation-delay: 0.15s, 2.5s;
 }
 
 .jr-stats {
   position: absolute;
-  left: 5%;
-  top: 38%;
+  left: 4%;
+  top: 7%;
   display: grid;
   gap: 0.35rem;
   font-size: 1.5cqw;
@@ -58,9 +58,9 @@
 
 .jr-truck {
   position: absolute;
-  left: 22%;
-  top: 31%;
-  width: 62%;
+  left: 17%;
+  top: 27%;
+  width: 66%;
   z-index: 1;
   animation: jr-truck-in 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both, jr-truck-out 1.8s 2.3s cubic-bezier(0.55, 0, 0.8, 0.4) forwards;
 }
@@ -295,11 +295,21 @@
   }
 }
 
+.jr-headlight {
+  animation: jr-headlight 1.2s ease-in-out infinite;
+}
+
+@keyframes jr-headlight {
+  50% {
+    opacity: 0;
+  }
+}
+
 @media (max-width: 640px) {
   .jr-truck {
-    left: 5%;
-    width: 90%;
-    top: 36%;
+    left: 4%;
+    width: 92%;
+    top: 34%;
   }
 
   .jr-stats {
