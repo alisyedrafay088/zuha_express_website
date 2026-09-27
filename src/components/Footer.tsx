@@ -1,6 +1,6 @@
 import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { Logo } from "./Logo";
-import { LOGIN_URL, PHONE_DISPLAY, RIDER_LOGIN_URL, TRACK_URL, WHATSAPP_URL } from "../config";
+import { ADMIN_LOGIN_URL, LOGIN_URL, PHONE_DISPLAY, RIDER_LOGIN_URL, TRACK_URL, WHATSAPP_URL } from "../config";
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -42,6 +42,9 @@ export function Footer() {
             </li>
             <li>
               <a href={RIDER_LOGIN_URL}>Rider Login</a>
+            </li>
+            <li>
+              <a href={ADMIN_LOGIN_URL}>Admin Login</a>
             </li>
           </ul>
         </div>

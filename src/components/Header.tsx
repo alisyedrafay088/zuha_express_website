@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Logo } from "./Logo";
-import { LOGIN_URL, RIDER_LOGIN_URL, TRACK_URL } from "../config";
+import { ADMIN_LOGIN_URL, LOGIN_URL, RIDER_LOGIN_URL, TRACK_URL } from "../config";
 
 const ANNOUNCEMENTS = [
   { tag: "NEW", text: "Competitive delivery rates for e-commerce sellers — no hidden fees." },
@@ -61,6 +61,9 @@ export function Header() {
           </li>
           <li className="nav-links-mobile-only">
             <a href={RIDER_LOGIN_URL}>Rider Login</a>
+          </li>
+          <li className="nav-links-mobile-only">
+            <a href={ADMIN_LOGIN_URL}>Admin Login</a>
           </li>
         </ul>
         <div className="nav-actions">

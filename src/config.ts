@@ -3,6 +3,7 @@ const erpUrl = ((import.meta.env.VITE_ERP_URL as string | undefined) || "https:/
 export const ERP_URL = erpUrl;
 export const LOGIN_URL = `${erpUrl}/customer/login`;
 export const RIDER_LOGIN_URL = `${erpUrl}/rider/login`;
+export const ADMIN_LOGIN_URL = `${erpUrl}/login`;
 export const TRACK_URL = `${erpUrl}/track`;
 export const trackingUrl = (trackingId: string) => `${TRACK_URL}?id=${encodeURIComponent(trackingId)}`;
 
