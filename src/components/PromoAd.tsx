@@ -116,7 +116,7 @@ function Booking({ local }: { local: number }) {
         <div className="ad-field">
           <label>Address</label>
           <span>
-            <Typing text="Surjani Town, Karachi" start={1000} local={local} />
+            <Typing text="DHA Phase 5, Lahore" start={1000} local={local} />
           </span>
         </div>
         <div className="ad-field">
@@ -196,7 +196,7 @@ function Delivery({ local }: { local: number }) {
             <Truck size={22} className="ad-map-truck" />
           </div>
           <span className="ad-pin">
-            <MapPin size={18} /> Surjani
+            <MapPin size={18} /> Lahore
           </span>
         </div>
         <div className={`ad-status ${delivered ? "done" : ""}`}>
@@ -238,7 +238,7 @@ function AddressCheck({ local }: { local: number }) {
           </span>
         </div>
         <div className="ad-geo-address">
-          <ScanSearch size={16} /> House 12, Sector 7D, Surjani Town
+          <ScanSearch size={16} /> House 12, DHA Phase 5, Lahore
         </div>
         <div className={`ad-status ${verified ? "done" : ""}`}>
           {verified ? (
