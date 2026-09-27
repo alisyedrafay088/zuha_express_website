@@ -1,29 +1,94 @@
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import {
   BadgeCheck,
-  Banknote,
   CalendarCheck,
+  CheckCircle2,
   Headphones,
   MapPin,
-  MessageCircle,
   Navigation,
-  Package,
   PercentCircle,
-  ShieldCheck,
+  Phone,
   Tags,
   TrendingUp,
+  Truck,
   type LucideIcon,
 } from "lucide-react";
 import { LOGIN_URL, WHATSAPP_URL } from "../config";
-import { AdminIllustration, RiderIllustration } from "./PartnerIllustrations";
+import { AdminFigure, RiderFigure } from "./PartnerIllustrations";
 import "./Partners.css";
+
+/* ---------- UI cards floating over each picture ---------- */
+
+function SupportCard({ lines, escalation }: { lines: string[]; escalation: string }) {
+  return (
+    <div className="pcard">
+      <h4>Support</h4>
+      {lines.map((line) => (
+        <div key={line} className="pcard-row">
+          <span>{line}</span>
+          <span className="pcard-call">
+            <Phone size={12} /> Call
+          </span>
+        </div>
+      ))}
+      <h4>Escalations</h4>
+      <div className="pcard-row">
+        <span>{escalation}</span>
+        <span className="pcard-call">
+          <Phone size={12} /> Call
+        </span>
+      </div>
+    </div>
+  );
+}
+
+function ListCard({ title, rows }: { title: string; rows: { label: string; value: string; ok?: boolean }[] }) {
+  return (
+    <div className="pcard">
+      <h4>{title}</h4>
+      {rows.map((row) => (
+        <div key={row.label} className="pcard-row">
+          <span>{row.label}</span>
+          <span className={row.ok ? "pcard-ok" : "pcard-value"}>
+            {row.ok && <CheckCircle2 size={13} />} {row.value}
+          </span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function TrackingCard() {
+  return (
+    <div className="pcard">
+      <h4>PM-000093 · Live</h4>
+      <div className="pcard-route">
+        <span>
+          <MapPin size={13} /> Karachi
+        </span>
+        <span className="pcard-route-line">
+          <Truck size={15} />
+        </span>
+        <span>
+          <MapPin size={13} /> Lahore
+        </span>
+      </div>
+      {["Picked up", "In transit", "Out for delivery"].map((step, i) => (
+        <div key={step} className={`pcard-step ${i < 2 ? "done" : ""}`}>
+          <CheckCircle2 size={13} /> {step}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/* ---------- Features ---------- */
 
 interface Feature {
   icon: LucideIcon;
   title: string;
   text: string;
-  /** Small floating card shown over the picture while this feature is highlighted. */
-  card: { icon: LucideIcon; label: string; value: string; tone: "green" | "blue" | "orange" | "purple" };
+  card: ReactNode;
 }
 
 const SELLER_FEATURES: Feature[] = [
@@ -31,25 +96,43 @@ const SELLER_FEATURES: Feature[] = [
     icon: BadgeCheck,
     title: "Verified Truck Discovery",
     text: "Get matched with our network of CNIC-verified riders, vans and trucks for every pickup.",
-    card: { icon: ShieldCheck, label: "Verified vehicle", value: "Van · KHI-5820 ✓", tone: "green" },
+    card: (
+      <ListCard
+        title="Verified vehicles"
+        rows={[
+          { label: "Van · KHI-5820", value: "Verified", ok: true },
+          { label: "Bike · KHI-2231", value: "Verified", ok: true },
+          { label: "Truck · LHR-9921", value: "Verified", ok: true },
+        ]}
+      />
+    ),
   },
   {
     icon: Tags,
     title: "Competitive Pricing",
-    text: "Flat PKR 250 delivery charge per booking — clear, fair and with no hidden fees.",
-    card: { icon: Tags, label: "Delivery charge", value: "PKR 250 flat", tone: "orange" },
+    text: "Get the best rate for every shipment — a flat PKR 250 per booking with no hidden fees.",
+    card: (
+      <ListCard
+        title="Delivery charges"
+        rows={[
+          { label: "Per booking", value: "PKR 250" },
+          { label: "Hidden fees", value: "PKR 0" },
+          { label: "Monthly fee", value: "PKR 0" },
+        ]}
+      />
+    ),
   },
   {
     icon: Navigation,
     title: "Real-time Tracking",
-    text: "Track every parcel's location and get timely alerts for delays and deliveries.",
-    card: { icon: MapPin, label: "PM-000093 · Live", value: "Karachi → Lahore", tone: "blue" },
+    text: "Track shipment location and get timely alerts for any delays and on-time deliveries.",
+    card: <TrackingCard />,
   },
   {
     icon: Headphones,
     title: "24/7 Online Support",
-    text: "Smooth operations with round-the-clock assistance from our admin team.",
-    card: { icon: MessageCircle, label: "Admin online", value: "Replies in 2 min", tone: "purple" },
+    text: "Ensure smooth operations with 24x7 assistance from our dedicated admin team.",
+    card: <SupportCard lines={["Parcel Booking", "COD & Payments", "Pickup Request"]} escalation="Account Manager" />,
   },
 ];
 
@@ -57,137 +140,160 @@ const RIDER_FEATURES: Feature[] = [
   {
     icon: TrendingUp,
     title: "Consistent Load Volume",
-    text: "Our growing base of online sellers keeps your bike, van or truck busy every single day.",
-    card: { icon: Package, label: "Today's loads", value: "38 parcels assigned", tone: "orange" },
+    text: "Our growing network of online sellers keeps your bike, van or truck busy every day.",
+    card: (
+      <ListCard
+        title="Today's loads"
+        rows={[
+          { label: "Karachi local", value: "26 parcels" },
+          { label: "Karachi → Lahore", value: "12 parcels" },
+          { label: "Karachi → Hyderabad", value: "8 parcels" },
+        ]}
+      />
+    ),
   },
   {
     icon: PercentCircle,
     title: "Zero Commissions",
-    text: "Every trip pays more — we don't cut any commission from your earnings.",
-    card: { icon: PercentCircle, label: "Commission", value: "PKR 0", tone: "green" },
+    text: "Every trip pays more because we don't charge you any commission.",
+    card: (
+      <ListCard
+        title="Trip earnings"
+        rows={[
+          { label: "Trip fare", value: "PKR 3,000" },
+          { label: "Commission", value: "PKR 0" },
+          { label: "You get", value: "PKR 3,000", ok: true },
+        ]}
+      />
+    ),
   },
   {
     icon: CalendarCheck,
     title: "On-time Payment Settlements",
     text: "Get paid on time, every time, with fast and transparent settlements.",
-    card: { icon: Banknote, label: "Payment settled", value: "PKR 18,500 ✓", tone: "blue" },
+    card: (
+      <ListCard
+        title="Payments"
+        rows={[
+          { label: "Week 1 · Sept", value: "PKR 18,500", ok: true },
+          { label: "Week 2 · Sept", value: "PKR 21,200", ok: true },
+          { label: "Week 3 · Sept", value: "PKR 19,750", ok: true },
+        ]}
+      />
+    ),
   },
   {
     icon: Headphones,
     title: "24/7 Dedicated Support",
-    text: "Keep moving without trouble — our support team is a call away, day or night.",
-    card: { icon: Headphones, label: "Support line", value: "Available 24/7", tone: "purple" },
+    text: "Keep moving without trouble with our 24x7 support whenever you need.",
+    card: <SupportCard lines={["Rider Helpline", "Vehicle Breakdown", "Payment Queries"]} escalation="Area Manager" />,
   },
 ];
 
-function PartnerBlock({
+/* ---------- Layout ---------- */
+
+function FeatureSlide({ feature, figure }: { feature: Feature; figure: ReactNode }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.25 },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  const Icon = feature.icon;
+  return (
+    <div ref={ref} className={`pslide ${visible ? "in" : ""}`}>
+      <div className="pslide-copy">
+        <span className="pslide-icon">
+          <Icon size={34} />
+        </span>
+        <h3>{feature.title}</h3>
+        <p>{feature.text}</p>
+      </div>
+      <div className="pslide-visual">
+        <div className="pslide-circle" />
+        <div className="pslide-figure">{figure}</div>
+        <div className="pslide-card">{feature.card}</div>
+      </div>
+    </div>
+  );
+}
+
+function PartnerGroup({
   eyebrow,
   title,
   subtitle,
   features,
-  visual,
+  figure,
   cta,
-  reverse = false,
 }: {
   eyebrow: string;
   title: ReactNode;
   subtitle: string;
   features: Feature[];
-  visual: ReactNode;
+  figure: ReactNode;
   cta: { label: string; href: string };
-  reverse?: boolean;
 }) {
-  const [active, setActive] = useState(0);
-  const [hovering, setHovering] = useState(false);
-
-  useEffect(() => {
-    if (hovering) return;
-    const id = window.setInterval(() => setActive((i) => (i + 1) % features.length), 3500);
-    return () => window.clearInterval(id);
-  }, [hovering, features.length]);
-
-  const card = features[active].card;
-
   return (
-    <div className={`partner-block ${reverse ? "reverse" : ""}`}>
-      <div className="partner-copy">
+    <div className="pgroup">
+      <div className="pgroup-head">
         <span className="partner-eyebrow">{eyebrow}</span>
         <h2>{title}</h2>
-        <p className="partner-subtitle">{subtitle}</p>
-        <div className="partner-features" onMouseEnter={() => setHovering(true)} onMouseLeave={() => setHovering(false)}>
-          {features.map(({ icon: Icon, title: featureTitle, text }, i) => (
-            <button
-              key={featureTitle}
-              type="button"
-              className={`partner-feature ${i === active ? "active" : ""}`}
-              onMouseEnter={() => setActive(i)}
-              onFocus={() => setActive(i)}
-              onClick={() => setActive(i)}
-            >
-              <span className="partner-feature-icon">
-                <Icon size={22} />
-              </span>
-              <span>
-                <strong>{featureTitle}</strong>
-                <span>{text}</span>
-              </span>
-            </button>
-          ))}
-        </div>
+        <p>{subtitle}</p>
         <a href={cta.href} className="btn btn-primary">
           {cta.label}
         </a>
       </div>
-
-      <div className="partner-visual">
-        {visual}
-        <div className={`partner-card partner-card-${card.tone}`} key={active}>
-          <card.icon size={20} />
-          <span>
-            <small>{card.label}</small>
-            <b>{card.value}</b>
-          </span>
-        </div>
-        <div className="partner-badge">
-          <span className="partner-badge-dot" /> 24/7 Support Live
-        </div>
-      </div>
+      {features.map((feature) => (
+        <FeatureSlide key={feature.title} feature={feature} figure={figure} />
+      ))}
     </div>
   );
 }
 
 export function Partners() {
   return (
-    <section className="section partners" id="partners">
+    <section className="partners" id="partners">
       <div className="container">
-        <PartnerBlock
+        <PartnerGroup
           eyebrow="FOR SELLERS"
           title={
             <>
               Verified Trucks, <span className="accent">Reduced Shipping Cost</span> &amp; More Visibility
             </>
           }
-          subtitle="Our admin team watches every shipment live, so you always know where your parcel is."
+          subtitle="Leverage the ZUHA Express network of riders and trucks — watched live by our admin team."
           features={SELLER_FEATURES}
-          visual={<AdminIllustration />}
+          figure={<AdminFigure />}
           cta={{ label: "Book a Parcel", href: LOGIN_URL }}
         />
         <p className="partners-fact">
           Many delivery vehicles run half-empty on return trips — ZUHA Express keeps them loaded, cutting costs for
           sellers and riders alike.
         </p>
-        <PartnerBlock
+        <PartnerGroup
           eyebrow="FOR RIDERS & TRUCKERS"
           title={
             <>
               Consistent Loads, <span className="accent">Less Waiting</span> to Maximize Earnings
             </>
           }
-          subtitle="Join the ZUHA Express fleet and earn more regularly with steady, commission-free work."
+          subtitle="ZUHA Express helps you earn more regularly with minimum waiting between trips."
           features={RIDER_FEATURES}
-          visual={<RiderIllustration />}
+          figure={<RiderFigure />}
           cta={{ label: "Join as a Rider", href: WHATSAPP_URL }}
-          reverse
         />
       </div>
     </section>
