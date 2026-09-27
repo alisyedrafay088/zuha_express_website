@@ -251,3 +251,136 @@
     text-align: left;
   }
 }
+
+/* ---------- Motion ---------- */
+.ks-road-wrap {
+  position: relative;
+}
+
+.ks-truck {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--navy);
+  color: var(--orange);
+  box-shadow: 0 8px 18px rgba(15, 39, 64, 0.3);
+  pointer-events: none;
+  opacity: 0;
+  will-change: transform;
+  transition: opacity 0.5s ease 1.6s;
+}
+
+.ks.in .ks-truck {
+  opacity: 1;
+}
+
+/* pins bob gently after dropping in, with a breathing shadow */
+.ks.in .ks-pin {
+  animation:
+    ks-drop 0.6s cubic-bezier(0.3, 1.5, 0.6, 1) var(--d, 0s) both,
+    ks-bob 2.6s ease-in-out calc(var(--d, 0s) + 0.8s) infinite;
+}
+
+.ks-marker::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -5px;
+  width: 26px;
+  height: 7px;
+  margin-left: -13px;
+  border-radius: 50%;
+  background: rgba(15, 39, 64, 0.2);
+  animation: ks-shadow 2.6s ease-in-out calc(var(--d, 0s) + 0.8s) infinite;
+}
+
+.ks-card {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.ks-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 30px rgba(15, 39, 64, 0.12);
+}
+
+.ks-item:hover .ks-pin-icon {
+  animation: ks-spin 0.6s ease;
+}
+
+@keyframes ks-bob {
+  0%,
+  100% {
+    transform: none;
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+@keyframes ks-shadow {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(0.65);
+    opacity: 0.5;
+  }
+}
+
+@keyframes ks-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes ks-dot {
+  from {
+    top: 16px;
+  }
+  to {
+    top: calc(100% - 28px);
+  }
+}
+
+@media (max-width: 900px) {
+  .ks-truck,
+  .ks-marker::after {
+    display: none;
+  }
+
+  /* a glowing dot travels down the timeline */
+  .ks.in .ks-items::after {
+    content: "";
+    position: absolute;
+    left: 27px;
+    top: 16px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--orange);
+    box-shadow: 0 0 0 5px rgba(245, 166, 35, 0.25);
+    animation: ks-dot 5s linear infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ks.in .ks-pin,
+  .ks-marker::after,
+  .ks.in .ks-items::after {
+    animation: none;
+  }
+
+  .ks-truck {
+    display: none;
+  }
+}

@@ -1,4 +1,5 @@
-import { ArrowRight, FileSpreadsheet, Plug, Printer, ShoppingBag, Store, Upload } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { ArrowRight, FileSpreadsheet, Package, Plug, Printer, ShoppingBag, Store, Upload } from "lucide-react";
 import { LOGIN_URL, WHATSAPP_URL } from "../config";
 import "./Integrations.css";
 
@@ -27,8 +28,27 @@ const FLOW = [
 ];
 
 export function Integrations() {
+  const ref = useRef<HTMLElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.2 },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section className="section integrations" id="integrations">
+    <section ref={ref} className={`section integrations ${visible ? "in" : ""}`} id="integrations">
       <div className="container">
         <div className="section-head">
           <span className="integrations-eyebrow">
@@ -45,15 +65,18 @@ export function Integrations() {
 
         <div className="integrations-platforms">
           {PLATFORMS.map((name, i) => (
-            <span key={name} style={{ animationDelay: `${i * 0.08}s` }}>
+            <span key={name} style={{ ["--i" as string]: i }}>
               <Store size={16} /> {name}
             </span>
           ))}
         </div>
 
         <div className="integrations-flow">
+          <span className="integrations-runner" aria-hidden="true">
+            <Package size={18} />
+          </span>
           {FLOW.map(({ icon: Icon, title, text }, i) => (
-            <div key={title} className="integrations-step">
+            <div key={title} className="integrations-step" style={{ ["--i" as string]: i }}>
               <span className="integrations-step-icon">
                 <Icon size={24} />
               </span>

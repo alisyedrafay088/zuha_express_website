@@ -12,6 +12,9 @@ import {
 } from "lucide-react";
 import "./KeySolutions.css";
 
+const prefersReducedMotion = () =>
+  typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
 interface Solution {
   icon: LucideIcon;
   title: string;
@@ -61,16 +64,59 @@ const SOLUTIONS: Solution[] = [
   },
 ];
 
-/** Winding road under a row of four pins. `up` = stems rise from the road (row 1), else hang below it (row 2). */
-function Road({ up }: { up: boolean }) {
+/**
+ * Winding road under a row of four pins, with a delivery truck that drives along it.
+ * `up` = stems rise from the road (row 1), else hang below it (row 2).
+ */
+function Road({ up, running, reverse = false }: { up: boolean; running: boolean; reverse?: boolean }) {
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const pathRef = useRef<SVGPathElement>(null);
+  const truckRef = useRef<HTMLSpanElement>(null);
   const top = 20;
   const low = 140;
   const [a, b] = up ? [top, low] : [low, top];
   const d = `M0 ${a} H200 C262 ${a} 262 ${b} 300 ${b} C338 ${b} 338 ${a} 400 ${a} H500 C562 ${a} 562 ${b} 600 ${b} C638 ${b} 638 ${a} 700 ${a} H800 C862 ${a} 862 ${b} 900 ${b} C938 ${b} 938 ${a} 1000 ${a} H1200`;
+
+  // Move the truck along the (stretched) SVG path in screen space so it follows every bend.
+  useEffect(() => {
+    if (!running || prefersReducedMotion()) return;
+    const LOOP_MS = 9000;
+    let frame = 0;
+    const startTime = performance.now() + 1600; // let the road draw itself first
+    const tick = (now: number) => {
+      const path = pathRef.current;
+      const wrap = wrapRef.current;
+      const truck = truckRef.current;
+      const matrix = path?.getScreenCTM();
+      if (path && wrap && truck && matrix && wrap.offsetParent) {
+        const len = path.getTotalLength();
+        let t = (Math.max(0, now - startTime) % LOOP_MS) / LOOP_MS;
+        if (reverse) t = 1 - t;
+        const point = path.getPointAtLength(t * len);
+        const here = new DOMPoint(point.x, point.y).matrixTransform(matrix);
+        const ahead = path.getPointAtLength(Math.min(len, t * len + 6));
+        const behind = path.getPointAtLength(Math.max(0, t * len - 6));
+        const p1 = new DOMPoint(behind.x, behind.y).matrixTransform(matrix);
+        const p2 = new DOMPoint(ahead.x, ahead.y).matrixTransform(matrix);
+        const angle = (Math.atan2(p2.y - p1.y, p2.x - p1.x) * 180) / Math.PI;
+        const box = wrap.getBoundingClientRect();
+        truck.style.transform = `translate(${here.x - box.left}px, ${here.y - box.top}px) translate(-50%, -80%) rotate(${angle}deg)${reverse ? " scaleX(-1)" : ""}`;
+      }
+      frame = requestAnimationFrame(tick);
+    };
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
+  }, [running, reverse]);
+
   return (
-    <svg className="ks-road" viewBox="0 0 1200 160" preserveAspectRatio="none" aria-hidden="true">
-      <path d={d} pathLength={1} vectorEffect="non-scaling-stroke" />
-    </svg>
+    <div className="ks-road-wrap" ref={wrapRef}>
+      <svg className="ks-road" viewBox="0 0 1200 160" preserveAspectRatio="none" aria-hidden="true">
+        <path ref={pathRef} d={d} pathLength={1} vectorEffect="non-scaling-stroke" />
+      </svg>
+      <span className="ks-truck" ref={truckRef} aria-hidden="true">
+        <Truck size={18} />
+      </span>
+    </div>
   );
 }
 
@@ -121,7 +167,7 @@ export function KeySolutions() {
 
         {rows.map((row, r) => (
           <div key={r} className={`ks-row ${r === 0 ? "ks-row-top" : "ks-row-bottom"}`}>
-            {r === 1 && <Road up={false} />}
+            {r === 1 && <Road up={false} running={visible} reverse />}
             <div className="ks-items">
               {row.map((s, i) => {
                 const n = r * 4 + i + 1;
@@ -144,7 +190,7 @@ export function KeySolutions() {
                 );
               })}
             </div>
-            {r === 0 && <Road up />}
+            {r === 0 && <Road up running={visible} />}
           </div>
         ))}
       </div>
