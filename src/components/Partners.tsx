@@ -109,10 +109,30 @@ const PHOTOS = {
     alt: "Support agent wearing a headset",
     credit: "LumenSoft Technologies",
   },
-  phoneUser: {
-    src: unsplash("photo-1745233916988-593609ed1b53"),
-    alt: "Man smiling while checking his phone",
-    credit: "Ali Pli",
+  businessOwner: {
+    src: unsplash("photo-1659353220482-554773c2f7fa"),
+    alt: "Confident business owner in a suit",
+    credit: "Fotos",
+  },
+  laptopUser: {
+    src: unsplash("photo-1637589308599-3478cc55510d"),
+    alt: "Seller tracking shipments on a laptop",
+    credit: "Fotos",
+  },
+  thumbsUp: {
+    src: unsplash("photo-1659356576109-194b3398f080"),
+    alt: "Happy rider giving a thumbs up",
+    credit: "Fotos",
+  },
+  driver: {
+    src: unsplash("photo-1613844158184-bcb18bdd4986"),
+    alt: "Driver sitting on his car in Karachi",
+    credit: "Kashif Afridi",
+  },
+  supportLaptop: {
+    src: unsplash("photo-1716471081169-cb8528a395d3"),
+    alt: "Support team member holding a laptop",
+    credit: "Noman Khan",
   },
 } satisfies Record<string, Photo>;
 
@@ -147,7 +167,7 @@ const SELLER_FEATURES: Feature[] = [
     icon: Tags,
     title: "Competitive Pricing",
     text: "Get the best rate for every shipment — a flat PKR 250 per booking with no hidden fees.",
-    photo: PHOTOS.phoneUser,
+    photo: PHOTOS.businessOwner,
     card: (
       <ListCard
         title="Delivery charges"
@@ -163,7 +183,7 @@ const SELLER_FEATURES: Feature[] = [
     icon: Navigation,
     title: "Real-time Tracking",
     text: "Track shipment location and get timely alerts for any delays and on-time deliveries.",
-    photo: PHOTOS.phoneUser,
+    photo: PHOTOS.laptopUser,
     card: <TrackingCard />,
   },
   {
@@ -196,7 +216,7 @@ const RIDER_FEATURES: Feature[] = [
     icon: PercentCircle,
     title: "Zero Commissions",
     text: "Every trip pays more because we don't charge you any commission.",
-    photo: PHOTOS.riderBoxes,
+    photo: PHOTOS.driver,
     card: (
       <ListCard
         title="Trip earnings"
@@ -212,7 +232,7 @@ const RIDER_FEATURES: Feature[] = [
     icon: CalendarCheck,
     title: "On-time Payment Settlements",
     text: "Get paid on time, every time, with fast and transparent settlements.",
-    photo: PHOTOS.phoneUser,
+    photo: PHOTOS.thumbsUp,
     card: (
       <ListCard
         title="Payments"
@@ -228,7 +248,7 @@ const RIDER_FEATURES: Feature[] = [
     icon: Headphones,
     title: "24/7 Dedicated Support",
     text: "Keep moving without trouble with our 24x7 support whenever you need.",
-    photo: PHOTOS.supportAgent,
+    photo: PHOTOS.supportLaptop,
     card: <SupportCard lines={["Rider Helpline", "Vehicle Breakdown", "Payment Queries"]} escalation="Area Manager" />,
   },
 ];
