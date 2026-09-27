@@ -10,15 +10,17 @@
   align-items: center;
 }
 
-/* Keeps the photo's 3:2 ratio (like object-fit: cover, anchored right) so the box
-   label stays glued to the parcel at every screen size. */
+/* The photo keeps its 3:2 ratio (so the box label stays glued to the parcel) and sits on
+   the right; its left edge fades into the dark background behind the text. */
 .hero-photo {
   position: absolute;
-  right: 0;
+  right: -6%;
   top: 50%;
-  width: max(100%, calc(var(--hero-h) * 1.5));
+  width: calc(var(--hero-h) * 1.5);
   aspect-ratio: 3 / 2;
   transform: translateY(-50%);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 13%);
+  mask-image: linear-gradient(90deg, transparent 0%, #000 13%);
 }
 
 .hero-photo img {
@@ -28,26 +30,25 @@
   object-fit: cover;
 }
 
-/* "Printed" branding on the front face of the parcel (photo coords in %) */
+/* "Printed" branding on the front face of the top parcel (photo coords in %) */
 .hero-box-print {
   position: absolute;
-  left: 53%;
-  top: 66%;
-  width: 14.5%;
+  left: 22.5%;
+  top: 55%;
+  width: 17%;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.2em;
   color: #173a5e;
-  font-size: clamp(9px, 1.05vw, 17px);
-  transform: rotate(-1.5deg) skewY(-2deg);
+  font-size: clamp(8px, 0.95vw, 15px);
   mix-blend-mode: multiply;
-  opacity: 0.9;
+  opacity: 0.92;
   pointer-events: none;
 }
 
 .hero-box-truck {
-  width: 2.6em;
+  width: 2.8em;
   height: auto;
   color: #f5a623;
 }
@@ -75,9 +76,7 @@
 }
 
 .hero-shade {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, rgba(8, 20, 34, 0.96) 0%, rgba(8, 20, 34, 0.85) 32%, rgba(8, 20, 34, 0.25) 55%, rgba(8, 20, 34, 0) 70%);
+  display: none;
 }
 
 .hero-banner-inner {
@@ -111,7 +110,7 @@
   display: flex;
   gap: 1rem;
   align-items: center;
-  max-width: 40rem;
+  max-width: 36rem;
   background: var(--white);
   border-radius: 24px;
   padding: 1.4rem;
@@ -171,7 +170,7 @@
 }
 
 /* Tablets / phones: text on dark on top, photo below */
-@media (max-width: 900px) {
+@media (max-width: 1100px) {
   .hero-banner {
     height: auto;
     flex-direction: column;
@@ -193,10 +192,12 @@
     position: relative;
     order: 1;
     top: auto;
+    right: auto;
     transform: none;
-    width: 190%;
-    margin-left: -88%;
-    margin-bottom: -18%;
+    width: 125%;
+    margin-left: -8%;
+    -webkit-mask-image: none;
+    mask-image: none;
   }
 
   .hero-banner::after {
@@ -211,7 +212,7 @@
   }
 
   .hero-box-print {
-    font-size: clamp(8px, 2.1vw, 16px);
+    font-size: clamp(7px, 1.9vw, 16px);
   }
 }
 
