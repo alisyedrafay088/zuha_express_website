@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, ShieldCheck, X } from "lucide-react";
 import { Logo } from "./Logo";
 import { ADMIN_LOGIN_URL, LOGIN_URL, RIDER_LOGIN_URL, TRACK_URL } from "../config";
 
@@ -44,8 +44,13 @@ export function Header() {
   return (
     <header className="site-header" ref={headerRef}>
       <div className="announcement">
-        <span className="announcement-tag">{current.tag}</span>
-        <span>{current.text}</span>
+        <div className="announcement-msg">
+          <span className="announcement-tag">{current.tag}</span>
+          <span>{current.text}</span>
+        </div>
+        <a href={ADMIN_LOGIN_URL} className="announcement-admin">
+          <ShieldCheck size={14} /> <span>Admin Panel</span>
+        </a>
       </div>
       <nav className="nav container">
         <Logo />
