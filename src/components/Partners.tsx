@@ -166,13 +166,13 @@ const SELLER_FEATURES: Feature[] = [
   {
     icon: Tags,
     title: "Competitive Pricing",
-    text: "Get the best rate for every shipment — a flat PKR 250 per booking with no hidden fees.",
+    text: "Get the best rate for every shipment — clear, competitive charges with no hidden fees.",
     photo: PHOTOS.businessOwner,
     card: (
       <ListCard
         title="Delivery charges"
         rows={[
-          { label: "Per booking", value: "PKR 250" },
+          { label: "Rates", value: "Competitive" },
           { label: "Hidden fees", value: "PKR 0" },
           { label: "Monthly fee", value: "PKR 0" },
         ]}

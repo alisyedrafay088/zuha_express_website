@@ -121,7 +121,7 @@ export function JourneyScene() {
       <div className="jr-hero">
         <div className="jr-stats">
           <span>
-            <b>PKR 250</b> flat
+            <b>Best</b> rates
           </span>
           <span>
             <b>24/7</b> support

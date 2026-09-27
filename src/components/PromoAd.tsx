@@ -314,7 +314,7 @@ function Cta() {
   return (
     <div className="ad-scene ad-center ad-orange-bg">
       <div className="ad-chips">
-        {["Flat PKR 250", "COD", "AI Tracking", "Address Verification", "Fleet Management", "24/7 Support", "Zero Commission"].map((chip, i) => (
+        {["Best Rates", "COD", "AI Tracking", "Address Verification", "Fleet Management", "24/7 Support", "Zero Commission"].map((chip, i) => (
           <span key={chip} className="ad-chip" style={{ animationDelay: `${i * 0.18}s` }}>
             {chip}
           </span>

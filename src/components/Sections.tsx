@@ -30,7 +30,7 @@ import { LOGIN_URL } from "../config";
 
 export function TrustStrip() {
   const stats = [
-    { value: "PKR 250", label: "Flat delivery charge" },
+    { value: "Best rates", label: "For e-commerce sellers" },
     { value: "Same day", label: "Pickup in Karachi" },
     { value: "COD", label: "Collected & remitted" },
     { value: "24/7", label: "Online tracking" },
@@ -87,8 +87,8 @@ export function Services() {
 const WHY = [
   {
     icon: Wallet,
-    title: "Flat PKR 250 Delivery",
-    text: "One simple delivery charge per booking. No weight surprises, no monthly subscription and no platform fee.",
+    title: "Competitive Delivery Rates",
+    text: "Clear, affordable delivery charges on every booking. No weight surprises, no monthly subscription and no platform fee.",
   },
   {
     icon: Banknote,
@@ -401,8 +401,8 @@ const TABS = [
     label: "Honest Pricing",
     icon: Scale,
     title: "Simple, Flat Pricing",
-    text: "A flat PKR 250 delivery charge per booking, shown clearly at the time of booking and on the airway bill. What you see is what you pay.",
-    points: ["PKR 250 per booking", "No monthly fee", "Charges visible on every airway bill"],
+    text: "Competitive delivery charges, shown clearly at the time of booking and on the airway bill. What you see is what you pay.",
+    points: ["Competitive rates", "No monthly fee", "Charges visible on every airway bill"],
   },
   {
     label: "Built for Business",
@@ -532,7 +532,7 @@ const FAQS = [
   },
   {
     q: "How much are the delivery charges?",
-    a: "Our standard delivery charge is a flat PKR 250 per booking. The charge is shown when you book and is printed on the airway bill.",
+    a: "Our delivery charges are competitive and depend on your shipment. The charge is shown when you book and is printed on the airway bill. Message us on WhatsApp for a quote.",
   },
   {
     q: "How does COD work?",

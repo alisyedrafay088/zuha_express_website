@@ -5,7 +5,7 @@ import "./PromoAdPartners.css";
 
 const SELLER_TILES = [
   { icon: BadgeCheck, label: "Verified Trucks" },
-  { icon: Tags, label: "Flat PKR 250" },
+  { icon: Tags, label: "Best Rates" },
   { icon: Navigation, label: "Real-time Tracking" },
   { icon: Headphones, label: "24/7 Support" },
 ];

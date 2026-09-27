@@ -4,7 +4,7 @@ import { Logo } from "./Logo";
 import { LOGIN_URL, RIDER_LOGIN_URL, TRACK_URL } from "../config";
 
 const ANNOUNCEMENTS = [
-  { tag: "NEW", text: "Flat PKR 250 delivery charges on every booking — no hidden fees." },
+  { tag: "NEW", text: "Competitive delivery rates for e-commerce sellers — no hidden fees." },
   { tag: "NEW", text: "Print airway bills with COD amount straight from your customer portal." },
 ];
 
