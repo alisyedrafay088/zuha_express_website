@@ -263,11 +263,20 @@ export function PromoAd() {
   const active = soundOn && playing && inView;
 
   useEffect(() => {
-    if (!soundOn) return;
-    const music = (musicRef.current ??= new AdMusic());
-    if (active) music.start();
-    else music.stop();
-  }, [soundOn, active]);
+    if (active) (musicRef.current ??= new AdMusic()).start();
+    else musicRef.current?.stop();
+  }, [active]);
+
+  function toggleSound(on: boolean) {
+    // Unlock audio inside the click itself, otherwise the browser keeps it silent.
+    if (on) {
+      const music = (musicRef.current ??= new AdMusic());
+      music.unlock();
+      music.start();
+      setPlaying(true);
+    }
+    setSoundOn(on);
+  }
 
   useEffect(() => () => musicRef.current?.dispose(), []);
 
@@ -294,7 +303,7 @@ export function PromoAd() {
         </div>
         <div className="ad-frame" ref={rootRef}>
           {!soundOn && (
-            <button type="button" className="ad-sound-prompt" onClick={() => setSoundOn(true)}>
+            <button type="button" className="ad-sound-prompt" onClick={() => toggleSound(true)}>
               <Volume2 size={16} /> Sound on
             </button>
           )}
@@ -325,7 +334,7 @@ export function PromoAd() {
             <button
               type="button"
               className={`ad-sound ${soundOn ? "on" : ""}`}
-              onClick={() => setSoundOn((on) => !on)}
+              onClick={() => toggleSound(!soundOn)}
               aria-label={soundOn ? "Mute" : "Sound on"}
             >
               {soundOn ? <Volume2 size={16} /> : <VolumeX size={16} />}

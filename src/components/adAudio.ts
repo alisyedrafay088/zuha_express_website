@@ -7,6 +7,7 @@
 const BPM = 112;
 const STEP = 60 / BPM / 4; // one 16th note, in seconds
 const LOOKAHEAD = 0.12;
+const VOLUME = 0.8;
 
 // A minor-ish pop progression: Am – F – C – G (root notes in Hz for the bass, triads for the stabs)
 const BARS = [
@@ -30,19 +31,25 @@ export class AdMusic {
     return this.timer !== null;
   }
 
+  /**
+   * Must be called directly inside a click/tap handler: browsers (Safari and iOS in particular)
+   * only let audio start when the AudioContext is created or resumed during a user gesture.
+   */
+  unlock() {
+    const ctx = this.ensureContext();
+    void ctx.resume();
+    const silent = ctx.createBufferSource();
+    silent.buffer = ctx.createBuffer(1, 1, ctx.sampleRate);
+    silent.connect(ctx.destination);
+    silent.start();
+  }
+
   start() {
     if (this.timer !== null) return;
-    if (!this.ctx) {
-      const Ctx = window.AudioContext ?? (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
-      this.ctx = new Ctx();
-      this.master = this.ctx.createGain();
-      this.master.gain.value = 0.55;
-      this.master.connect(this.ctx.destination);
-      this.noise = this.makeNoise();
-    }
-    void this.ctx.resume();
-    this.master!.gain.setTargetAtTime(0.55, this.ctx.currentTime, 0.05);
-    this.nextTime = this.ctx.currentTime + 0.05;
+    const ctx = this.ensureContext();
+    void ctx.resume();
+    this.master!.gain.setTargetAtTime(VOLUME, ctx.currentTime, 0.05);
+    this.nextTime = ctx.currentTime + 0.05;
     this.timer = window.setInterval(() => this.schedule(), 25);
   }
 
@@ -56,6 +63,18 @@ export class AdMusic {
   resetBeat() {
     this.step = 0;
     if (this.ctx) this.nextTime = this.ctx.currentTime + 0.05;
+  }
+
+  private ensureContext() {
+    if (!this.ctx) {
+      const Ctx = window.AudioContext ?? (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+      this.ctx = new Ctx();
+      this.master = this.ctx.createGain();
+      this.master.gain.value = VOLUME;
+      this.master.connect(this.ctx.destination);
+      this.noise = this.makeNoise();
+    }
+    return this.ctx;
   }
 
   dispose() {
