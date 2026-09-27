@@ -1,230 +1,328 @@
-/* Shadowfax-style hero: full-bleed doorstep photo, dark fade on the left, tracking card. */
-.hero-banner {
-  --hero-h: clamp(560px, 82vh, 720px);
+/* XpressBees-style hero: dark city street, badge + big headline, branded truck, slide dots. */
+.xb-hero {
   position: relative;
-  height: var(--hero-h);
   overflow: hidden;
-  background: #0b1a2b;
+  background: #0b1220;
   color: var(--white);
+  padding: 2.6rem 0 1.6rem;
+  min-height: clamp(560px, calc(100vh - var(--header-h, 108px)), 760px);
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  justify-content: center;
 }
 
-/* The photo keeps its 3:2 ratio (so the box label stays glued to the parcel) and sits on
-   the right; its left edge fades into the dark background behind the text. */
-.hero-photo {
+.xb-bg {
   position: absolute;
-  right: -6%;
-  top: 50%;
-  width: calc(var(--hero-h) * 1.5);
-  aspect-ratio: 3 / 2;
-  transform: translateY(-50%);
-  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 13%);
-  mask-image: linear-gradient(90deg, transparent 0%, #000 13%);
-}
-
-.hero-photo img {
-  display: block;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center 60%;
+  animation: xb-kenburns 24s ease-in-out infinite alternate;
 }
 
-/* "Printed" branding on the front face of the big bottom parcel (photo coords in %) */
-.hero-box-print {
+.xb-shade {
   position: absolute;
-  left: 19.5%;
-  top: 76.5%;
-  width: 21%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.2em;
-  color: #173a5e;
-  font-size: clamp(9px, 1.1vw, 17px);
-  mix-blend-mode: multiply;
-  opacity: 0.92;
-  pointer-events: none;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(6, 12, 22, 0.95) 0%, rgba(6, 12, 22, 0.82) 38%, rgba(6, 12, 22, 0.35) 70%, rgba(6, 12, 22, 0.25) 100%),
+    linear-gradient(0deg, rgba(6, 12, 22, 0.85) 0%, rgba(6, 12, 22, 0) 35%);
 }
 
-.hero-box-truck {
-  width: 2.8em;
-  height: auto;
-  color: #f5a623;
-}
-
-.hero-box-brand {
-  font-weight: 800;
-  font-style: italic;
-  font-size: 1.55em;
-  letter-spacing: -0.02em;
-  line-height: 1;
-  white-space: nowrap;
-}
-
-.hero-box-brand em {
-  color: #e08e00;
-}
-
-.hero-box-tag {
-  font-size: 0.62em;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: #3b4f66;
-  white-space: nowrap;
-}
-
-.hero-shade {
-  display: none;
-}
-
-.hero-banner-inner {
+.xb-inner {
   position: relative;
   z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr 1.05fr;
+  align-items: center;
+  gap: 1.5rem;
 }
 
-.hero-banner h1 {
-  max-width: 34rem;
-  margin: 0 0 1.4rem;
-  font-size: clamp(2rem, 4vw, 3.2rem);
+.xb-inner > * {
+  min-width: 0;
+}
+
+.xb-badge {
+  display: inline-block;
+  padding: 0.6rem 1.3rem;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(245, 166, 35, 0.55);
+  font-weight: 700;
+  font-size: 1.05rem;
+  margin-bottom: 1.2rem;
+  animation: ad-rise 0.6s ease-out both;
+}
+
+.xb-copy h1 {
+  margin: 0 0 1.3rem;
+  font-size: clamp(2.2rem, 4.1vw, 3.5rem);
   font-weight: 800;
+  line-height: 1.12;
   letter-spacing: -0.02em;
   color: var(--white);
-  animation: ad-rise 0.7s ease-out both;
+  animation: ad-rise 0.6s 0.1s ease-out both;
 }
 
-.hero-banner h1 span {
+.xb-copy h1 span {
   color: var(--orange);
 }
 
-.hero-banner-sub {
-  max-width: 32rem;
-  font-size: clamp(1rem, 1.5vw, 1.2rem);
-  color: #d7e0ea;
-  margin-bottom: 2rem;
-  animation: ad-rise 0.7s 0.15s ease-out both;
+.xb-copy p {
+  max-width: 30rem;
+  font-size: clamp(1rem, 1.4vw, 1.15rem);
+  color: #d5dde8;
+  margin-bottom: 1.6rem;
+  animation: ad-rise 0.6s 0.2s ease-out both;
 }
 
-.hero-track-card {
-  display: flex;
-  gap: 1rem;
+.xb-cta {
+  display: inline-flex;
   align-items: center;
-  max-width: 36rem;
-  background: var(--white);
-  border-radius: 24px;
-  padding: 1.4rem;
-  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.3);
-  animation: ad-rise 0.7s 0.3s ease-out both;
+  gap: 1rem;
+  padding: 0.55rem 0.55rem 0.55rem 1.6rem;
+  border-radius: 999px;
+  background: var(--orange);
+  color: var(--navy-dark);
+  font-weight: 800;
+  font-size: 1.05rem;
+  box-shadow: 0 12px 26px rgba(245, 166, 35, 0.35);
+  animation: ad-rise 0.6s 0.3s ease-out both;
+  transition: transform 0.15s ease;
 }
 
-.hero-track-card input {
+.xb-cta:hover {
+  transform: translateY(-2px);
+}
+
+.xb-cta-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--white);
+  color: var(--navy-dark);
+  transition: transform 0.2s ease;
+}
+
+.xb-cta:hover .xb-cta-icon {
+  transform: rotate(45deg);
+}
+
+/* truck: drives in once, then idles; a parcel keeps getting loaded */
+.xb-truck {
+  animation: xb-drive-in 1.1s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.ht-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 24px 30px rgba(0, 0, 0, 0.45));
+  animation: xb-idle 0.9s ease-in-out infinite;
+}
+
+.ht-loading-box {
+  animation: xb-load 3.2s ease-in-out 1.2s infinite;
+}
+
+.ht-headlight,
+.ht-taillight {
+  animation: xb-blink 1.6s ease-in-out infinite;
+}
+
+/* slide dots */
+.xb-dots {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-top: 1.2rem;
+}
+
+.xb-dots button {
+  width: 12px;
+  height: 12px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(245, 166, 35, 0.45);
+  cursor: pointer;
+  transition: width 0.3s ease, background 0.3s ease;
+}
+
+.xb-dots button.active {
+  width: 32px;
+  background: var(--orange);
+}
+
+/* tracking bar along the bottom of the banner */
+.xb-track {
+  position: relative;
+  z-index: 1;
+  margin-top: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.8rem;
+  border-radius: 20px;
+  background: linear-gradient(90deg, rgba(120, 62, 8, 0.85), rgba(160, 90, 14, 0.8));
+  border: 1px solid rgba(245, 166, 35, 0.5);
+  backdrop-filter: blur(6px);
+}
+
+.xb-track-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0 0.6rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.xb-track input {
   flex: 1;
   min-width: 0;
   font: inherit;
-  font-size: 1rem;
-  padding: 1rem 1.1rem;
-  border: 1.5px solid #d6dde6;
+  padding: 0.85rem 1rem;
+  border: 0;
   border-radius: 12px;
   outline: none;
   color: var(--ink);
 }
 
-.hero-track-card input:focus {
-  border-color: var(--orange);
-}
-
-.hero-track-card button {
+.xb-track button {
   display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.5rem;
   border: 0;
   border-radius: 12px;
-  padding: 1rem 1.4rem;
+  padding: 0.85rem 1.3rem;
   font: inherit;
   font-weight: 700;
   background: var(--orange);
   color: var(--navy-dark);
   cursor: pointer;
   white-space: nowrap;
-  transition: background 0.15s ease, transform 0.15s ease;
 }
 
-.hero-track-card button:hover {
-  background: var(--orange-dark);
-  transform: translateY(-1px);
+.xb-track button:hover {
+  background: #ffc24d;
 }
 
-.hero-banner-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  margin-top: 1.4rem;
-  font-weight: 600;
-  color: #fcd38a;
-  animation: ad-rise 0.7s 0.45s ease-out both;
-}
-
-.hero-banner-link:hover {
-  color: var(--orange);
-}
-
-/* Tablets / phones: text on dark on top, photo below */
-@media (max-width: 1100px) {
-  .hero-banner {
-    height: auto;
-    flex-direction: column;
-    align-items: stretch;
-    padding-top: 2.5rem;
+@keyframes xb-kenburns {
+  from {
+    transform: scale(1);
   }
-
-  .hero-banner-inner {
-    order: 0;
-    padding-bottom: 2rem;
+  to {
+    transform: scale(1.08) translateX(-1.5%);
   }
+}
 
-  .hero-shade {
-    display: none;
+@keyframes xb-drive-in {
+  from {
+    opacity: 0;
+    transform: translateX(35%);
   }
-
-  /* Photo becomes its own block, cropped to the delivery scene */
-  .hero-photo {
-    position: relative;
-    order: 1;
-    top: auto;
-    right: auto;
+  to {
+    opacity: 1;
     transform: none;
-    width: 125%;
-    margin-left: -8%;
-    -webkit-mask-image: none;
-    mask-image: none;
-  }
-
-  .hero-banner::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 30px;
-    background: linear-gradient(0deg, rgba(8, 20, 34, 0.35), transparent);
-    pointer-events: none;
-  }
-
-  .hero-box-print {
-    font-size: clamp(7px, 1.9vw, 16px);
   }
 }
 
-@media (max-width: 560px) {
-  .hero-track-card {
-    flex-direction: column;
-    align-items: stretch;
-    padding: 1rem;
-    border-radius: 18px;
+@keyframes xb-idle {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-1.5px);
+  }
+}
+
+@keyframes xb-load {
+  0% {
+    transform: translate(40px, 30px);
+    opacity: 0;
+  }
+  15% {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+  45% {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+  70% {
+    transform: translate(-70px, -30px) scale(0.85);
+    opacity: 1;
+  }
+  80%,
+  100% {
+    transform: translate(-90px, -38px) scale(0.8);
+    opacity: 0;
+  }
+}
+
+@keyframes xb-blink {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+/* tablets / phones: text first, truck below */
+@media (max-width: 900px) {
+  .xb-hero {
+    padding-top: 3rem;
+    min-height: 0;
   }
 
-  .hero-track-card button {
+  .xb-inner {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .xb-truck {
+    max-width: 520px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .xb-shade {
+    background: linear-gradient(0deg, rgba(6, 12, 22, 0.92) 0%, rgba(6, 12, 22, 0.78) 55%, rgba(6, 12, 22, 0.88) 100%);
+  }
+}
+
+@media (max-width: 640px) {
+  .xb-badge {
+    font-size: 0.9rem;
+    padding: 0.45rem 1rem;
+    margin-bottom: 1.1rem;
+  }
+
+  .xb-track {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .xb-track-label {
+    padding: 0.2rem 0.2rem 0;
+  }
+
+  .xb-track button {
     justify-content: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .xb-bg,
+  .xb-truck,
+  .ht-svg,
+  .ht-loading-box,
+  .ht-headlight,
+  .ht-taillight {
+    animation: none;
   }
 }

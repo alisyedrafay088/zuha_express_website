@@ -1,14 +1,53 @@
-import { useState, type FormEvent } from "react";
-import { ArrowRight } from "lucide-react";
+import { useEffect, useState, type FormEvent } from "react";
+import { ArrowRight, ArrowUpRight, Search } from "lucide-react";
 import { LOGIN_URL, trackingUrl } from "../config";
+import { HeroTruck } from "./HeroTruck";
 import "./Hero.css";
 
-/** Delivery rider in a cap carrying parcels, Karachi (Unsplash License, by Fotos). */
-const HERO_PHOTO =
-  "https://images.unsplash.com/photo-1659353741638-9bbe25cd8715?w=1800&h=1200&fit=crop&auto=format&q=80";
+/** Karachi street (Unsplash License, by Muhammad Amir). */
+const CITY_PHOTO =
+  "https://images.unsplash.com/photo-1715163694958-0af07a963763?w=2200&h=1300&fit=crop&auto=format&q=75";
+
+interface Slide {
+  badge: string;
+  title: [string, string, string];
+  text: string;
+  cta: string;
+}
+
+const SLIDES: Slide[] = [
+  {
+    badge: "E-commerce Logistics",
+    title: ["Powering ", "E‑commerce Growth", " with Smarter Logistics"],
+    text: "COD parcel delivery, returns and bulk shipping for online sellers and D2C brands across Pakistan.",
+    cta: "Ship Now",
+  },
+  {
+    badge: "Intra-City Logistics",
+    title: ["Same-Day ", "Delivery", " Across Your City"],
+    text: "Point-to-point delivery within Karachi, Lahore and more — for shops, pharmacies, food and retail.",
+    cta: "Book a Pickup",
+  },
+  {
+    badge: "COD Delivery",
+    title: ["Cash on Delivery, ", "Handled Right", " Every Time"],
+    text: "The parcel amount is collected at the door and remitted to you, with a clear record for every order.",
+    cta: "Start Shipping",
+  },
+];
+
+const SLIDE_MS = 6000;
 
 export function Hero() {
   const [trackingId, setTrackingId] = useState("");
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+
+  useEffect(() => {
+    if (paused) return;
+    const id = window.setTimeout(() => setActive((i) => (i + 1) % SLIDES.length), SLIDE_MS);
+    return () => window.clearTimeout(id);
+  }, [active, paused]);
 
   function handleTrack(e: FormEvent) {
     e.preventDefault();
@@ -16,36 +55,59 @@ export function Hero() {
     if (id) window.location.href = trackingUrl(id);
   }
 
+  const slide = SLIDES[active];
+
   return (
-    <section className="hero-banner" id="top">
-      {/* Photo keeps its own 3:2 box so the ZUHA label always sits on the parcel */}
-      <div className="hero-photo" aria-hidden="true">
-        <img src={HERO_PHOTO} alt="" fetchPriority="high" />
-        <div className="hero-box-print">
-          <svg viewBox="0 0 64 40" className="hero-box-truck">
-            <rect x="1" y="10" width="34" height="18" rx="2" fill="currentColor" />
-            <path d="M35 16h14l10 8v4H35V16Z" fill="currentColor" />
-            <circle cx="14" cy="30" r="6" fill="currentColor" />
-            <circle cx="47" cy="30" r="6" fill="currentColor" />
-          </svg>
-          <span className="hero-box-brand">
-            ZUHA <em>EXPRESS.</em>
-          </span>
-          <span className="hero-box-tag">Smart Logistics</span>
+    <section
+      className="xb-hero"
+      id="top"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
+      <img className="xb-bg" src={CITY_PHOTO} alt="" aria-hidden="true" fetchPriority="high" />
+      <div className="xb-shade" aria-hidden="true" />
+
+      <div className="container xb-inner">
+        <div className="xb-copy" key={active}>
+          <span className="xb-badge">{slide.badge}</span>
+          <h1>
+            {slide.title[0]}
+            <span>{slide.title[1]}</span>
+            {slide.title[2]}
+          </h1>
+          <p>{slide.text}</p>
+          <a href={LOGIN_URL} className="xb-cta">
+            {slide.cta}
+            <span className="xb-cta-icon">
+              <ArrowUpRight size={20} />
+            </span>
+          </a>
+        </div>
+
+        <div className="xb-truck" aria-hidden="true">
+          <HeroTruck />
         </div>
       </div>
-      <div className="hero-shade" aria-hidden="true" />
 
-      <div className="container hero-banner-inner">
-        <h1>
-          Pakistan&rsquo;s Trusted Partner for <span>Fast, Reliable Delivery</span>
-        </h1>
-        <p className="hero-banner-sub">
-          Your partner for COD parcel delivery, returns, intra-city &amp; inter-city logistics, bulk shipping and
-          e-commerce fulfilment.
-        </p>
+      <div className="container xb-dots" role="tablist" aria-label="Banner slides">
+        {SLIDES.map((s, i) => (
+          <button
+            key={s.badge}
+            type="button"
+            role="tab"
+            aria-selected={i === active}
+            aria-label={s.badge}
+            className={i === active ? "active" : ""}
+            onClick={() => setActive(i)}
+          />
+        ))}
+      </div>
 
-        <form className="hero-track-card" id="track" onSubmit={handleTrack}>
+      <div className="container">
+        <form className="xb-track" id="track" onSubmit={handleTrack}>
+          <span className="xb-track-label">
+            <Search size={18} /> Track your parcel
+          </span>
           <input
             placeholder="Tracking number (e.g. PM-000092)"
             value={trackingId}
@@ -53,13 +115,9 @@ export function Hero() {
             aria-label="Tracking number"
           />
           <button type="submit">
-            Track Shipment <ArrowRight size={20} />
+            Track Shipment <ArrowRight size={18} />
           </button>
         </form>
-
-        <a href={LOGIN_URL} className="hero-banner-link">
-          New seller? Start shipping with ZUHA <ArrowRight size={16} />
-        </a>
       </div>
     </section>
   );
