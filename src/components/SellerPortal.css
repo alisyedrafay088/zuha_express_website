@@ -289,9 +289,7 @@
   transition-delay: calc(0.9s + var(--i) * 0.35s);
 }
 
-.sp.in .sp-stage:last-child .sp-stage-icon {
-  background: #16a34a;
-}
+
 
 .sp-stage-arrow {
   color: var(--orange-dark);
@@ -360,5 +358,220 @@
   .sp-cta {
     width: 100%;
     justify-content: center;
+  }
+}
+
+/* ---------- Motion ---------- */
+
+/* cards float gently, out of step with each other */
+.sp.in .sp-perks {
+  animation: sp-float 5.5s ease-in-out 1s infinite;
+}
+
+.sp.in .sp-orders {
+  animation: sp-float 5.5s ease-in-out 3.2s infinite;
+}
+
+/* a light sweep passes over the "What you get" card */
+.sp-perks {
+  overflow: hidden;
+}
+
+.sp-perks::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -40%;
+  width: 30%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.75), transparent);
+  transform: skewX(-18deg);
+  pointer-events: none;
+}
+
+.sp.in .sp-perks::after {
+  animation: sp-shine 6s ease-in-out 1.5s infinite;
+}
+
+.sp.in .sp-perk:hover .sp-perk-icon {
+  transform: translateY(-5px) scale(1.08);
+}
+
+/* new orders slide in on top */
+.sp-order-new {
+  animation: sp-order-in 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.sp-risk.pending {
+  background: #fff4de;
+  color: #b45309;
+  animation: sp-blink 0.9s ease-in-out infinite;
+}
+
+/* delivery status walks along the pipeline */
+.sp.in .sp-stage-icon {
+  animation: sp-stage 4s ease-in-out calc(1s + var(--i) * 1s) infinite;
+}
+
+.sp.in .sp-stage:last-child .sp-stage-icon {
+  animation-name: sp-stage-done;
+}
+
+/* photo: soft pulse + dots orbiting the circle */
+.sp.in .sp-photo {
+  animation: sp-pulse 3s ease-in-out infinite;
+}
+
+.sp-orbit {
+  position: absolute;
+  left: 0;
+  bottom: 20px;
+  width: 300px;
+  height: 300px;
+  pointer-events: none;
+}
+
+.sp.in .sp-orbit {
+  animation: sp-orbit 14s linear infinite;
+}
+
+.sp-orbit i {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--orange);
+}
+
+.sp-orbit i:nth-child(1) {
+  top: -14px;
+  left: 50%;
+}
+
+.sp-orbit i:nth-child(2) {
+  bottom: 30px;
+  left: -12px;
+  width: 7px;
+  height: 7px;
+  background: var(--navy);
+}
+
+.sp-orbit i:nth-child(3) {
+  bottom: 40px;
+  right: -10px;
+  width: 8px;
+  height: 8px;
+  background: #fbbf24;
+}
+
+@keyframes sp-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes sp-shine {
+  0% {
+    left: -40%;
+  }
+  35%,
+  100% {
+    left: 130%;
+  }
+}
+
+@keyframes sp-order-in {
+  from {
+    opacity: 0;
+    transform: translateY(-14px);
+    background: #fff8ec;
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    background: transparent;
+  }
+}
+
+@keyframes sp-blink {
+  50% {
+    opacity: 0.55;
+  }
+}
+
+@keyframes sp-stage {
+  0%,
+  26%,
+  100% {
+    background: var(--navy);
+    color: var(--white);
+    transform: none;
+  }
+  6%,
+  20% {
+    background: var(--orange);
+    color: var(--navy-dark);
+    transform: scale(1.18);
+  }
+}
+
+@keyframes sp-stage-done {
+  0%,
+  26%,
+  100% {
+    background: var(--navy);
+    color: var(--white);
+    transform: none;
+  }
+  6%,
+  20% {
+    background: #16a34a;
+    color: var(--white);
+    transform: scale(1.18);
+  }
+}
+
+@keyframes sp-pulse {
+  0%,
+  100% {
+    box-shadow: 0 20px 40px rgba(15, 39, 64, 0.18), 0 0 0 0 rgba(245, 166, 35, 0.35);
+  }
+  50% {
+    box-shadow: 0 20px 40px rgba(15, 39, 64, 0.18), 0 0 0 14px rgba(245, 166, 35, 0);
+  }
+}
+
+@keyframes sp-orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 640px) {
+  .sp-orbit {
+    display: none;
+  }
+
+  /* cards are stacked in normal flow on phones: keep them still */
+  .sp.in .sp-perks,
+  .sp.in .sp-orders {
+    animation: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sp.in .sp-perks,
+  .sp.in .sp-orders,
+  .sp.in .sp-perks::after,
+  .sp.in .sp-stage-icon,
+  .sp.in .sp-photo,
+  .sp.in .sp-orbit,
+  .sp-order-new,
+  .sp-risk.pending {
+    animation: none;
   }
 }

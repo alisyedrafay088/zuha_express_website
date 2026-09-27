@@ -26,10 +26,18 @@ const PERKS: { icon: LucideIcon; label: string }[] = [
   { icon: Navigation, label: "Real-Time Tracking" },
 ];
 
-const ORDERS = [
-  { id: "PM-000093", date: "27 Sep 2026 · 05:13 PM", name: "Zain Ali Khan", city: "Lahore", verified: true },
-  { id: "PM-000094", date: "27 Sep 2026 · 06:02 PM", name: "Ayesha Siddiqui", city: "Karachi", verified: false },
+/** Sample orders that keep arriving in the "Recent Orders" card. */
+const ORDER_POOL = [
+  { id: "PM-000093", time: "05:13 PM", name: "Zain Ali Khan", city: "Lahore", verified: true },
+  { id: "PM-000094", time: "05:21 PM", name: "Ayesha Siddiqui", city: "Karachi", verified: false },
+  { id: "PM-000095", time: "05:34 PM", name: "Bilal Ahmed", city: "Islamabad", verified: true },
+  { id: "PM-000096", time: "05:48 PM", name: "Hira Farooq", city: "Faisalabad", verified: true },
+  { id: "PM-000097", time: "06:02 PM", name: "Usman Tariq", city: "Multan", verified: false },
+  { id: "PM-000098", time: "06:15 PM", name: "Sana Malik", city: "Hyderabad", verified: true },
 ];
+
+const FEED_MS = 3800;
+const CHECK_MS = 1300;
 
 const PIPELINE: { icon: LucideIcon; label: string }[] = [
   { icon: ClipboardList, label: "Order Placed" },
@@ -41,6 +49,21 @@ const PIPELINE: { icon: LucideIcon; label: string }[] = [
 export function SellerPortal() {
   const ref = useRef<HTMLElement>(null);
   const [visible, setVisible] = useState(false);
+  const [tick, setTick] = useState(1);
+  const [checking, setChecking] = useState(false);
+
+  // A new order lands on top every few seconds; its address is "checked" before it resolves.
+  useEffect(() => {
+    if (!visible || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const id = window.setInterval(() => {
+      setTick((t) => t + 1);
+      setChecking(true);
+      window.setTimeout(() => setChecking(false), CHECK_MS);
+    }, FEED_MS);
+    return () => window.clearInterval(id);
+  }, [visible]);
+
+  const rows = [tick, tick - 1].map((n) => ({ ...ORDER_POOL[n % ORDER_POOL.length], key: n }));
 
   useEffect(() => {
     const el = ref.current;
@@ -80,6 +103,11 @@ export function SellerPortal() {
 
         <div className="sp-visual">
           <div className="sp-circle" aria-hidden="true" />
+          <div className="sp-orbit" aria-hidden="true">
+            <i />
+            <i />
+            <i />
+          </div>
           <img className="sp-photo" src={PORTAL_PHOTO} alt="Seller managing orders on a laptop" loading="lazy" />
 
           <div className="sp-card sp-perks">
@@ -104,20 +132,24 @@ export function SellerPortal() {
                 View all <ArrowRight size={13} />
               </span>
             </div>
-            {ORDERS.map((o) => (
-              <div key={o.id} className="sp-order">
+            {rows.map((o, i) => (
+              <div key={o.key} className={`sp-order ${i === 0 && tick > 1 ? "sp-order-new" : ""}`}>
                 <span className="sp-check" />
                 <div>
                   <b>{o.id}</b>
-                  <small>{o.date}</small>
+                  <small>27 Sep 2026 · {o.time}</small>
                 </div>
                 <div>
                   <b>{o.name}</b>
                   <small>{o.city}</small>
                 </div>
-                <span className={`sp-risk ${o.verified ? "ok" : "check"}`}>
-                  Address: {o.verified ? "Verified" : "Review"}
-                </span>
+                {i === 0 && checking ? (
+                  <span className="sp-risk pending">Checking address…</span>
+                ) : (
+                  <span className={`sp-risk ${o.verified ? "ok" : "check"}`}>
+                    Address: {o.verified ? "Verified" : "Review"}
+                  </span>
+                )}
               </div>
             ))}
             <div className="sp-pipeline">
