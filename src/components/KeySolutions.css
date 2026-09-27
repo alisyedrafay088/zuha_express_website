@@ -1,0 +1,253 @@
+/* Shadowfax-style "Key Solutions": a winding road with numbered map pins and cards. */
+.ks {
+  background: var(--white);
+  overflow: hidden;
+}
+
+.ks-row {
+  position: relative;
+}
+
+.ks-row-bottom {
+  margin-top: 1.5rem;
+}
+
+.ks-items {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  align-items: end;
+}
+
+.ks-row-bottom .ks-items {
+  align-items: start;
+  margin-top: -14px;
+}
+
+.ks-item {
+  --stem: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease var(--d, 0s), transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) var(--d, 0s);
+}
+
+.ks-row-bottom .ks-item {
+  flex-direction: column-reverse;
+  transform: translateY(-24px);
+}
+
+.ks.in .ks-item {
+  opacity: 1;
+  transform: none;
+}
+
+/* staggered heights like pins scattered along the road */
+.ks-stagger-0 {
+  --stem: 70px;
+}
+
+.ks-stagger-1 {
+  --stem: 20px;
+}
+
+.ks-stagger-2 {
+  --stem: 55px;
+}
+
+.ks-stagger-3 {
+  --stem: 10px;
+}
+
+.ks-card {
+  width: 100%;
+  max-width: 260px;
+  padding: 1.2rem 1.1rem;
+  text-align: center;
+}
+
+.ks-warm .ks-card {
+  background: #fff1d6;
+}
+
+.ks-cool .ks-card {
+  background: #e6eef7;
+}
+
+.ks-card h3 {
+  font-size: 1.15rem;
+  color: var(--navy);
+  margin-bottom: 0.5rem;
+}
+
+.ks-card p {
+  font-size: 0.86rem;
+  line-height: 1.5;
+  color: #4b5563;
+  margin: 0;
+}
+
+.ks-marker {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin-top: -18px;
+}
+
+.ks-row-bottom .ks-marker {
+  margin-top: 0;
+  margin-bottom: -18px;
+}
+
+.ks-num {
+  position: absolute;
+  right: calc(50% + 34px);
+  bottom: 6px;
+  font-size: 2.2rem;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--ink);
+}
+
+.ks-pin {
+  position: relative;
+  width: 64px;
+  height: 80px;
+  display: block;
+}
+
+.ks-pin-shape {
+  width: 100%;
+  height: 100%;
+  fill: var(--navy);
+  filter: drop-shadow(0 6px 10px rgba(15, 39, 64, 0.25));
+}
+
+.ks-pin-icon {
+  position: absolute;
+  left: 10px;
+  top: 8px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #fff4de;
+  color: var(--navy);
+}
+
+.ks-warm .ks-pin-icon {
+  background: var(--orange);
+  color: var(--navy-dark);
+}
+
+.ks.in .ks-pin {
+  animation: ks-drop 0.6s cubic-bezier(0.3, 1.5, 0.6, 1) var(--d, 0s) both;
+}
+
+.ks-stem {
+  width: 2px;
+  height: var(--stem);
+  background: #cfd6df;
+}
+
+.ks-road {
+  display: block;
+  width: 100%;
+  height: 110px;
+  margin-top: -14px;
+  overflow: visible;
+}
+
+.ks-row-bottom .ks-road {
+  margin-top: 0;
+}
+
+.ks-road path {
+  fill: none;
+  stroke: #cfd6df;
+  stroke-width: 2.5;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 2.4s ease-in-out 0.2s;
+}
+
+.ks.in .ks-road path {
+  stroke-dashoffset: 0;
+}
+
+@keyframes ks-drop {
+  from {
+    transform: translateY(-40px);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+/* Tablets / phones: a vertical timeline, pin on the left and card on the right */
+@media (max-width: 900px) {
+  .ks-road,
+  .ks-stem {
+    display: none;
+  }
+
+  .ks-row-bottom {
+    margin-top: 1.2rem;
+  }
+
+  .ks-items,
+  .ks-row-bottom .ks-items {
+    position: relative;
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+    margin-top: 0;
+    align-items: stretch;
+  }
+
+  .ks-items::before {
+    content: "";
+    position: absolute;
+    left: 31px;
+    top: 20px;
+    bottom: 20px;
+    width: 2px;
+    background: #cfd6df;
+  }
+
+  .ks-item,
+  .ks-row-bottom .ks-item {
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    align-items: flex-start;
+    gap: 1rem;
+    transform: translateX(-20px);
+  }
+
+  .ks-marker,
+  .ks-row-bottom .ks-marker {
+    margin: 0;
+    flex-shrink: 0;
+  }
+
+  .ks-num {
+    right: auto;
+    left: 50%;
+    bottom: auto;
+    top: 84px;
+    transform: translateX(-50%);
+    font-size: 1rem;
+    font-weight: 700;
+    background: var(--white);
+    padding: 0 4px;
+  }
+
+  .ks-card {
+    max-width: none;
+    text-align: left;
+  }
+}

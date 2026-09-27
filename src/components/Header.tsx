@@ -9,7 +9,7 @@ const ANNOUNCEMENTS = [
 ];
 
 const NAV_LINKS = [
-  { href: "#services", label: "Services" },
+  { href: "#solutions", label: "Solutions" },
   { href: "#features", label: "Features" },
   { href: "#integrations", label: "Integrations" },
   { href: "#how-it-works", label: "How it Works" },

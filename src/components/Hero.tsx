@@ -1,6 +1,11 @@
 import { useState, type FormEvent } from "react";
-import { ArrowRight, Banknote, CheckCircle2, MapPin, PackageCheck, Plane, Search, Truck } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { LOGIN_URL, trackingUrl } from "../config";
+import "./Hero.css";
+
+/** Doorstep delivery photo (Unsplash License, by Vitaly Gariev). */
+const HERO_PHOTO =
+  "https://images.unsplash.com/photo-1758523670564-d1d6a734dc0b?w=2000&h=1333&fit=crop&auto=format&q=78";
 
 export function Hero() {
   const [trackingId, setTrackingId] = useState("");
@@ -12,95 +17,49 @@ export function Hero() {
   }
 
   return (
-    <section className="hero" id="top">
-      <div className="hero-sky" aria-hidden="true">
-        <div className="hero-plane">
-          <span className="hero-plane-trail" />
-          <Plane size={34} />
+    <section className="hero-banner" id="top">
+      {/* Photo keeps its own 3:2 box so the ZUHA label always sits on the parcel */}
+      <div className="hero-photo" aria-hidden="true">
+        <img src={HERO_PHOTO} alt="" fetchPriority="high" />
+        <div className="hero-box-print">
+          <svg viewBox="0 0 64 40" className="hero-box-truck">
+            <rect x="1" y="10" width="34" height="18" rx="2" fill="currentColor" />
+            <path d="M35 16h14l10 8v4H35V16Z" fill="currentColor" />
+            <circle cx="14" cy="30" r="6" fill="currentColor" />
+            <circle cx="47" cy="30" r="6" fill="currentColor" />
+          </svg>
+          <span className="hero-box-brand">
+            ZUHA <em>EXPRESS.</em>
+          </span>
+          <span className="hero-box-tag">Smart Logistics</span>
         </div>
       </div>
-      <div className="container hero-grid">
-        <div className="hero-copy">
-          <p className="hero-kicker">
-            ZUHA Express is a tech-enabled courier service to book parcels, print airway bills, track shipments and
-            keep your COD clear.
-          </p>
-          <h1>
-            Fast &amp; Reliable <span className="accent">COD Courier</span> for eCommerce in Pakistan
-          </h1>
-          <div className="hero-ctas">
-            <a href={LOGIN_URL} className="btn btn-primary btn-lg">
-              Get Started <ArrowRight size={18} />
-            </a>
-            <a href="#how-it-works" className="btn btn-ghost btn-lg">
-              How it works
-            </a>
-          </div>
+      <div className="hero-shade" aria-hidden="true" />
 
-          <form className="hero-track" id="track" onSubmit={handleTrack}>
-            <Search size={18} className="hero-track-icon" />
-            <input
-              placeholder="Enter tracking number e.g. PM-000092"
-              value={trackingId}
-              onChange={(e) => setTrackingId(e.target.value)}
-              aria-label="Tracking number"
-            />
-            <button type="submit" className="btn btn-accent">
-              Track
-            </button>
-          </form>
-        </div>
+      <div className="container hero-banner-inner">
+        <h1>
+          Pakistan&rsquo;s Trusted Partner for <span>Fast, Reliable Delivery</span>
+        </h1>
+        <p className="hero-banner-sub">
+          Your partner for COD parcel delivery, returns, intra-city &amp; inter-city logistics, bulk shipping and
+          e-commerce fulfilment.
+        </p>
 
-        <div className="hero-visual" aria-hidden="true">
-          <div className="hero-blob" />
-          <div className="hero-card hero-card-main">
-            <div className="hero-card-head">
-              <span className="hero-card-id">PM-000092</span>
-              <span className="pill pill-blue">In Transit</span>
-            </div>
-            <div className="hero-route">
-              <div>
-                <MapPin size={16} />
-                <span>Karachi</span>
-              </div>
-              <div className="hero-route-line">
-                <Truck size={18} className="hero-route-truck" />
-              </div>
-              <div>
-                <MapPin size={16} />
-                <span>Lahore</span>
-              </div>
-            </div>
-            <ul className="hero-timeline">
-              <li className="done">
-                <CheckCircle2 size={16} /> Booked
-              </li>
-              <li className="done">
-                <CheckCircle2 size={16} /> Picked up by rider
-              </li>
-              <li className="active">
-                <Truck size={16} /> On the way
-              </li>
-              <li>
-                <PackageCheck size={16} /> Delivered
-              </li>
-            </ul>
-          </div>
-          <div className="hero-card hero-card-cod">
-            <Banknote size={20} />
-            <div>
-              <span className="hero-card-label">Total COD</span>
-              <strong>PKR 2,250</strong>
-            </div>
-          </div>
-          <div className="hero-card hero-card-delivered">
-            <PackageCheck size={20} />
-            <div>
-              <span className="hero-card-label">Delivered today</span>
-              <strong>Lahore · DHA Phase 5</strong>
-            </div>
-          </div>
-        </div>
+        <form className="hero-track-card" id="track" onSubmit={handleTrack}>
+          <input
+            placeholder="Tracking number (e.g. PM-000092)"
+            value={trackingId}
+            onChange={(e) => setTrackingId(e.target.value)}
+            aria-label="Tracking number"
+          />
+          <button type="submit">
+            Track Shipment <ArrowRight size={20} />
+          </button>
+        </form>
+
+        <a href={LOGIN_URL} className="hero-banner-link">
+          New seller? Start shipping with ZUHA <ArrowRight size={16} />
+        </a>
       </div>
     </section>
   );

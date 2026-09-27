@@ -18,6 +18,7 @@ import {
 import { Footer } from "./components/Footer";
 import { Partners } from "./components/Partners";
 import { Integrations } from "./components/Integrations";
+import { KeySolutions } from "./components/KeySolutions";
 
 export default function App() {
   return (
@@ -28,6 +29,7 @@ export default function App() {
         <PromoAd />
         <TrustStrip />
         <Services />
+        <KeySolutions />
         <Partners />
         <WhyChoose />
         <Integrations />
