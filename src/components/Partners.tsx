@@ -99,11 +99,6 @@ const PHOTOS = {
     alt: "Smiling delivery rider in Karachi holding parcels",
     credit: "Fotos",
   },
-  riderPointing: {
-    src: unsplash("photo-1659353739926-4c7df1a645a6"),
-    alt: "Delivery rider in Karachi carrying boxes",
-    credit: "Fotos",
-  },
   supportAgent: {
     src: unsplash("photo-1603714228681-b399854b8f80"),
     alt: "Support agent wearing a headset",
@@ -119,20 +114,25 @@ const PHOTOS = {
     alt: "Seller tracking shipments on a laptop",
     credit: "Fotos",
   },
-  thumbsUp: {
-    src: unsplash("photo-1659356576109-194b3398f080"),
-    alt: "Happy rider giving a thumbs up",
-    credit: "Fotos",
-  },
   driver: {
     src: unsplash("photo-1613844158184-bcb18bdd4986"),
     alt: "Driver sitting on his car in Karachi",
     credit: "Kashif Afridi",
   },
-  supportLaptop: {
-    src: unsplash("photo-1716471081169-cb8528a395d3"),
-    alt: "Support team member holding a laptop",
-    credit: "Noman Khan",
+  loadedVehicle: {
+    src: unsplash("photo-1674837669081-8d606d4e1ea4"),
+    alt: "Decorated delivery vehicle on the road in Pakistan",
+    credit: "Muhammad Qasim Ali",
+  },
+  trucker: {
+    src: unsplash("photo-1613276458041-dd8e73f5a8bd"),
+    alt: "Truck driver in a winter cap",
+    credit: "Imad92 Asad",
+  },
+  helplineAgent: {
+    src: unsplash("photo-1659080549057-fbbda68d9d45"),
+    alt: "Support agent talking on the phone",
+    credit: "Fotos",
   },
 } satisfies Record<string, Photo>;
 
@@ -200,7 +200,7 @@ const RIDER_FEATURES: Feature[] = [
     icon: TrendingUp,
     title: "Consistent Load Volume",
     text: "Our growing network of online sellers keeps your bike, van or truck busy every day.",
-    photo: PHOTOS.riderPointing,
+    photo: PHOTOS.loadedVehicle,
     card: (
       <ListCard
         title="Today's loads"
@@ -216,7 +216,7 @@ const RIDER_FEATURES: Feature[] = [
     icon: PercentCircle,
     title: "Zero Commissions",
     text: "Every trip pays more because we don't charge you any commission.",
-    photo: PHOTOS.driver,
+    photo: PHOTOS.trucker,
     card: (
       <ListCard
         title="Trip earnings"
@@ -232,7 +232,7 @@ const RIDER_FEATURES: Feature[] = [
     icon: CalendarCheck,
     title: "On-time Payment Settlements",
     text: "Get paid on time, every time, with fast and transparent settlements.",
-    photo: PHOTOS.thumbsUp,
+    photo: PHOTOS.driver,
     card: (
       <ListCard
         title="Payments"
@@ -248,7 +248,7 @@ const RIDER_FEATURES: Feature[] = [
     icon: Headphones,
     title: "24/7 Dedicated Support",
     text: "Keep moving without trouble with our 24x7 support whenever you need.",
-    photo: PHOTOS.supportLaptop,
+    photo: PHOTOS.helplineAgent,
     card: <SupportCard lines={["Rider Helpline", "Vehicle Breakdown", "Payment Queries"]} escalation="Area Manager" />,
   },
 ];
