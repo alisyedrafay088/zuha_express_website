@@ -191,18 +191,17 @@
   }
 
   /* Photo becomes its own block, cropped to the delivery scene */
-  /* show only the courier + parcel part of the shot (about x 40–73%) */
+  /* show the courier and the whole parcel (photo x 20–73%), never the recipient */
   .hero-photo {
     position: relative;
     order: 1;
     top: auto;
     right: auto;
     transform: none;
-    width: 290%;
-    margin-left: -112%;
+    width: 188.7%;
+    margin-left: -37.7%;
     -webkit-mask-image: none;
     mask-image: none;
-    margin-bottom: -30%;
   }
 
   .hero-banner::after {
@@ -217,7 +216,7 @@
   }
 
   .hero-box-print {
-    font-size: clamp(9px, 3.2vw, 18px);
+    font-size: clamp(8px, 2.2vw, 16px);
   }
 }
 
