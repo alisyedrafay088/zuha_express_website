@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { CheckCircle2, MapPin, Pause, Play, RotateCcw, Truck, Volume2, VolumeX } from "lucide-react";
+import { Bike, BrainCircuit, CheckCircle2, MapPin, Pause, Play, RotateCcw, ScanSearch, Truck, Volume2, VolumeX } from "lucide-react";
 import { LOGIN_URL } from "../config";
 import "./PromoAd.css";
+import "./PromoAdFeatures.css";
 import { AdMusic } from "./adAudio";
 
 /** Each scene's length in ms. The ad is a sequence of these, looping forever. */
@@ -11,7 +12,9 @@ const SCENES = [
   { id: "reveal", ms: 3000 },
   { id: "booking", ms: 4200 },
   { id: "awb", ms: 3800 },
-  { id: "delivery", ms: 3600 },
+  { id: "delivery", ms: 3800 },
+  { id: "address", ms: 3800 },
+  { id: "fleet", ms: 3800 },
   { id: "cta", ms: 4200 },
 ] as const;
 
@@ -175,13 +178,16 @@ function Delivery({ local }: { local: number }) {
       <div className="ad-split-copy">
         <span className="ad-step">03</span>
         <h3 className="ad-big ad-slide-left">
-          Live <span className="ad-orange">tracking.</span>
+          AI <span className="ad-orange">Tracking System.</span>
         </h3>
         <p className="ad-sub ad-rise" style={{ animationDelay: "0.4s" }}>
-          Rider ka naam, number aur status — sab online.
+          AI delivery ka din pehle se bata deta hai — rider aur status live.
         </p>
       </div>
       <div className="ad-map ad-pop">
+        <div className="ad-ai-badge">
+          <BrainCircuit size={16} /> AI ETA: <b>Aaj, 5 PM tak</b>
+        </div>
         <div className="ad-map-route">
           <span className="ad-pin">
             <MapPin size={18} /> Karachi
@@ -209,11 +215,100 @@ function Delivery({ local }: { local: number }) {
   );
 }
 
+function AddressCheck({ local }: { local: number }) {
+  const verified = local > 2200;
+  return (
+    <div className="ad-scene ad-split ad-light">
+      <div className="ad-split-copy">
+        <span className="ad-step">04</span>
+        <h3 className="ad-big ad-slide-left">
+          Address <span className="ad-orange">Verification.</span>
+        </h3>
+        <p className="ad-sub ad-rise" style={{ animationDelay: "0.4s" }}>
+          Har address map pe check — rider seedha sahi darwaze pe.
+        </p>
+      </div>
+      <div className="ad-geo ad-pop">
+        <div className="ad-geo-map">
+          <span className="ad-geo-road ad-geo-road-h" />
+          <span className="ad-geo-road ad-geo-road-v" />
+          {!verified && <span className="ad-geo-scan" />}
+          <span className={`ad-geo-pin ${verified ? "locked" : ""}`}>
+            <MapPin size={30} />
+          </span>
+        </div>
+        <div className="ad-geo-address">
+          <ScanSearch size={16} /> House 12, Sector 7D, Surjani Town
+        </div>
+        <div className={`ad-status ${verified ? "done" : ""}`}>
+          {verified ? (
+            <>
+              <CheckCircle2 size={18} /> Address Verified
+            </>
+          ) : (
+            <>
+              <ScanSearch size={18} /> Checking on map…
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const FLEET = [
+  { icon: Bike, name: "Bike · KHI-2231", rider: "Ali Khan", status: "On delivery" },
+  { icon: Truck, name: "Van · KHI-5820", rider: "Usman", status: "Loading" },
+  { icon: Bike, name: "Bike · KHI-7714", rider: "Bilal", status: "On delivery" },
+];
+
+function Fleet() {
+  return (
+    <div className="ad-scene ad-split ad-light">
+      <div className="ad-split-copy">
+        <span className="ad-step">05</span>
+        <h3 className="ad-big ad-slide-left">
+          Fleet <span className="ad-orange">Management.</span>
+        </h3>
+        <p className="ad-sub ad-rise" style={{ animationDelay: "0.4s" }}>
+          Har bike, van aur rider par poori nazar.
+        </p>
+      </div>
+      <div className="ad-fleet ad-pop">
+        <div className="ad-fleet-stats">
+          <div>
+            <b>12</b>
+            <span>Vehicles</span>
+          </div>
+          <div>
+            <b>18</b>
+            <span>Riders</span>
+          </div>
+          <div>
+            <b>96%</b>
+            <span>On time</span>
+          </div>
+        </div>
+        {FLEET.map(({ icon: Icon, name, rider, status }, i) => (
+          <div key={name} className="ad-fleet-row" style={{ animationDelay: `${0.5 + i * 0.35}s` }}>
+            <Icon size={18} />
+            <span>
+              <b>{name}</b>
+              <small>{rider}</small>
+            </span>
+            <i className={status === "Loading" ? "loading" : ""}>{status}</i>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function Cta() {
   return (
     <div className="ad-scene ad-center ad-orange-bg">
       <div className="ad-chips">
-        {["Flat PKR 250", "COD", "Live Tracking", "Bulk Upload"].map((chip, i) => (
+        {["Flat PKR 250", "COD", "AI Tracking", "Address Verification", "Fleet Management"].map((chip, i) => (
           <span key={chip} className="ad-chip" style={{ animationDelay: `${i * 0.18}s` }}>
             {chip}
           </span>
@@ -285,7 +380,7 @@ export function PromoAd() {
     const music = musicRef.current;
     const cue = lastCue.current;
     const booked = scene === "booking" && local > 2700;
-    const delivered = scene === "delivery" && local > 2400;
+    const delivered = (scene === "delivery" && local > 2400) || (scene === "address" && local > 2200);
     if (active && music) {
       if (index !== cue.index && cue.index !== -1) music.sfx("whoosh");
       if (booked && !cue.booked) music.sfx("ding");
@@ -298,7 +393,7 @@ export function PromoAd() {
     <section className="section ad-section" id="ad">
       <div className="container">
         <div className="section-head">
-          <h2>ZUHA Express — 25 seconds mein</h2>
+          <h2>ZUHA Express — 30 seconds mein</h2>
           <p>Dekho kaise ZUHA Express aap ki delivery aur COD ko aasaan banata hai.</p>
         </div>
         <div className="ad-frame" ref={rootRef}>
@@ -314,6 +409,8 @@ export function PromoAd() {
             {scene === "booking" && <Booking local={local} />}
             {scene === "awb" && <Awb local={local} />}
             {scene === "delivery" && <Delivery local={local} />}
+            {scene === "address" && <AddressCheck local={local} />}
+            {scene === "fleet" && <Fleet />}
             {scene === "cta" && <Cta />}
           </div>
           <div className="ad-controls">

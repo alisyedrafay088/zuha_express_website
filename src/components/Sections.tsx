@@ -3,6 +3,9 @@ import {
   BadgeCheck,
   BarChart3,
   Banknote,
+  BrainCircuit,
+  Car,
+  MapPinCheck,
   Bike,
   Boxes,
   Building2,
@@ -233,6 +236,21 @@ export function Solutions() {
 }
 
 const FEATURES = [
+  {
+    icon: BrainCircuit,
+    title: "AI Tracking System",
+    text: "Our AI predicts the delivery date for every parcel and keeps its live status, rider and location updated.",
+  },
+  {
+    icon: MapPinCheck,
+    title: "Address Verification",
+    text: "Every delivery address is verified on the map before dispatch, so riders reach the right door the first time.",
+  },
+  {
+    icon: Car,
+    title: "Fleet Management",
+    text: "Bikes, vans and riders managed from one dashboard — assignments, vehicle status and on-time performance.",
+  },
   {
     icon: Banknote,
     title: "COD Remittance + Clear Records",
