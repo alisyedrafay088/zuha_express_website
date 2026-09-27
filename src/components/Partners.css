@@ -27,6 +27,13 @@
   letter-spacing: -0.02em;
 }
 
+.pgroup-ctas {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
 .pgroup-head p {
   color: var(--muted);
   font-size: 1.1rem;

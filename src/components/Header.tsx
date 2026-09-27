@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Logo } from "./Logo";
-import { LOGIN_URL, TRACK_URL } from "../config";
+import { LOGIN_URL, RIDER_LOGIN_URL, TRACK_URL } from "../config";
 
 const ANNOUNCEMENTS = [
   { tag: "NEW", text: "Flat PKR 250 delivery charges on every booking — no hidden fees." },
@@ -59,8 +59,14 @@ export function Header() {
           <li className="nav-links-mobile-only">
             <a href={LOGIN_URL}>Login / Register</a>
           </li>
+          <li className="nav-links-mobile-only">
+            <a href={RIDER_LOGIN_URL}>Rider Login</a>
+          </li>
         </ul>
         <div className="nav-actions">
+          <a href={RIDER_LOGIN_URL} className="nav-login nav-login-rider">
+            Rider Login
+          </a>
           <a href={LOGIN_URL} className="nav-login">
             Login/Register
           </a>

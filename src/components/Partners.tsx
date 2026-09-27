@@ -13,7 +13,7 @@ import {
   Truck,
   type LucideIcon,
 } from "lucide-react";
-import { LOGIN_URL, WHATSAPP_URL } from "../config";
+import { LOGIN_URL, RIDER_LOGIN_URL, WHATSAPP_URL } from "../config";
 import { AdminFigure, RiderFigure } from "./PartnerIllustrations";
 import "./Partners.css";
 
@@ -362,6 +362,7 @@ function PartnerGroup({
   features,
   figure,
   cta,
+  secondaryCta,
 }: {
   eyebrow: string;
   title: ReactNode;
@@ -369,6 +370,7 @@ function PartnerGroup({
   features: Feature[];
   figure: ReactNode;
   cta: { label: string; href: string };
+  secondaryCta?: { label: string; href: string };
 }) {
   return (
     <div className="pgroup">
@@ -376,9 +378,16 @@ function PartnerGroup({
         <span className="partner-eyebrow">{eyebrow}</span>
         <h2>{title}</h2>
         <p>{subtitle}</p>
-        <a href={cta.href} className="btn btn-primary">
-          {cta.label}
-        </a>
+        <div className="pgroup-ctas">
+          <a href={cta.href} className="btn btn-primary">
+            {cta.label}
+          </a>
+          {secondaryCta && (
+            <a href={secondaryCta.href} className="btn btn-ghost" target="_blank" rel="noreferrer">
+              {secondaryCta.label}
+            </a>
+          )}
+        </div>
       </div>
       <FeatureScroller features={features} figure={figure} />
     </div>
@@ -415,7 +424,8 @@ export function Partners() {
           subtitle="ZUHA Express helps you earn more regularly with minimum waiting between trips."
           features={RIDER_FEATURES}
           figure={<RiderFigure />}
-          cta={{ label: "Join as a Rider", href: WHATSAPP_URL }}
+          cta={{ label: "Rider Login", href: RIDER_LOGIN_URL }}
+          secondaryCta={{ label: "Join as a Rider (WhatsApp)", href: WHATSAPP_URL }}
         />
         <p className="partners-credit">
           Photos:{" "}

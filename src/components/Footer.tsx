@@ -1,6 +1,6 @@
 import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { Logo } from "./Logo";
-import { LOGIN_URL, TRACK_URL, WHATSAPP_URL } from "../config";
+import { LOGIN_URL, PHONE_DISPLAY, RIDER_LOGIN_URL, TRACK_URL, WHATSAPP_URL } from "../config";
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -40,6 +40,9 @@ export function Footer() {
             <li>
               <a href={LOGIN_URL}>Customer Login</a>
             </li>
+            <li>
+              <a href={RIDER_LOGIN_URL}>Rider Login</a>
+            </li>
           </ul>
         </div>
         <div>
@@ -49,7 +52,10 @@ export function Footer() {
               <MapPin size={16} /> Karachi, Pakistan
             </li>
             <li>
-              <Phone size={16} /> +92 300 0000000
+              <Phone size={16} />{" "}
+              <a href={WHATSAPP_URL} target="_blank" rel="noreferrer">
+                {PHONE_DISPLAY} (WhatsApp)
+              </a>
             </li>
             <li>
               <Mail size={16} /> info@zuhaexpress.com
