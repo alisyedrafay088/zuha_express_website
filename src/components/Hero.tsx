@@ -97,7 +97,7 @@ export function Hero() {
             <PackageCheck size={20} />
             <div>
               <span className="hero-card-label">Delivered today</span>
-              <strong>Karachi · Surjani</strong>
+              <strong>Lahore · DHA Phase 5</strong>
             </div>
           </div>
         </div>
