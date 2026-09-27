@@ -16,6 +16,7 @@ import {
   WhyChoose,
 } from "./components/Sections";
 import { Footer } from "./components/Footer";
+import { Partners } from "./components/Partners";
 
 export default function App() {
   return (
@@ -26,6 +27,7 @@ export default function App() {
         <PromoAd />
         <TrustStrip />
         <Services />
+        <Partners />
         <WhyChoose />
         <Solutions />
         <Features />
