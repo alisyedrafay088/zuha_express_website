@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Logo } from "./Logo";
-import { LOGIN_URL } from "../config";
+import { LOGIN_URL, TRACK_URL } from "../config";
 
 const ANNOUNCEMENTS = [
   { tag: "NEW", text: "Flat PKR 250 delivery charges on every booking — no hidden fees." },
@@ -52,7 +52,7 @@ export function Header() {
           <a href={LOGIN_URL} className="nav-login">
             Login/Register
           </a>
-          <a href="#track" className="btn btn-primary">
+          <a href={TRACK_URL} className="btn btn-primary">
             Tracking
           </a>
           <button

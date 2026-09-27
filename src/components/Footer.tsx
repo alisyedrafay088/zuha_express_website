@@ -1,6 +1,6 @@
 import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { Logo } from "./Logo";
-import { LOGIN_URL, WHATSAPP_URL } from "../config";
+import { LOGIN_URL, TRACK_URL, WHATSAPP_URL } from "../config";
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -21,7 +21,7 @@ export function Footer() {
               <a href="#services">Bulk Shipping</a>
             </li>
             <li>
-              <a href="#track">Parcel Tracking</a>
+              <a href={TRACK_URL}>Parcel Tracking</a>
             </li>
             <li>
               <a href="#coverage">Coverage</a>
