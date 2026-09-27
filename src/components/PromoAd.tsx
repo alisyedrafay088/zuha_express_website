@@ -4,6 +4,7 @@ import { LOGIN_URL } from "../config";
 import "./PromoAd.css";
 import "./PromoAdFeatures.css";
 import { AdMusic } from "./adAudio";
+import { RidersScene, SellersScene, SupportScene } from "./PromoAdPartners";
 
 /** Each scene's length in ms. The ad is a sequence of these, looping forever. */
 const SCENES = [
@@ -15,6 +16,9 @@ const SCENES = [
   { id: "delivery", ms: 3800 },
   { id: "address", ms: 3800 },
   { id: "fleet", ms: 3800 },
+  { id: "sellers", ms: 3800 },
+  { id: "support", ms: 4200 },
+  { id: "riders", ms: 4200 },
   { id: "cta", ms: 4200 },
 ] as const;
 
@@ -308,7 +312,7 @@ function Cta() {
   return (
     <div className="ad-scene ad-center ad-orange-bg">
       <div className="ad-chips">
-        {["Flat PKR 250", "COD", "AI Tracking", "Address Verification", "Fleet Management"].map((chip, i) => (
+        {["Flat PKR 250", "COD", "AI Tracking", "Address Verification", "Fleet Management", "24/7 Support", "Zero Commission"].map((chip, i) => (
           <span key={chip} className="ad-chip" style={{ animationDelay: `${i * 0.18}s` }}>
             {chip}
           </span>
@@ -380,7 +384,11 @@ export function PromoAd() {
     const music = musicRef.current;
     const cue = lastCue.current;
     const booked = scene === "booking" && local > 2700;
-    const delivered = (scene === "delivery" && local > 2400) || (scene === "address" && local > 2200);
+    const delivered =
+      (scene === "delivery" && local > 2400) ||
+      (scene === "address" && local > 2200) ||
+      (scene === "support" && local > 2700) ||
+      (scene === "riders" && local > 2600);
     if (active && music) {
       if (index !== cue.index && cue.index !== -1) music.sfx("whoosh");
       if (booked && !cue.booked) music.sfx("ding");
@@ -393,7 +401,7 @@ export function PromoAd() {
     <section className="section ad-section" id="ad">
       <div className="container">
         <div className="section-head">
-          <h2>ZUHA Express — 30 seconds mein</h2>
+          <h2>ZUHA Express — 45 seconds mein</h2>
           <p>Dekho kaise ZUHA Express aap ki delivery aur COD ko aasaan banata hai.</p>
         </div>
         <div className="ad-frame" ref={rootRef}>
@@ -411,6 +419,9 @@ export function PromoAd() {
             {scene === "delivery" && <Delivery local={local} />}
             {scene === "address" && <AddressCheck local={local} />}
             {scene === "fleet" && <Fleet />}
+            {scene === "sellers" && <SellersScene />}
+            {scene === "support" && <SupportScene local={local} />}
+            {scene === "riders" && <RidersScene local={local} />}
             {scene === "cta" && <Cta />}
           </div>
           <div className="ad-controls">

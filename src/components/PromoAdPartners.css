@@ -1,0 +1,198 @@
+/* 06 · sellers tiles */
+.ad-tiles {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.7rem;
+}
+
+.ad-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  text-align: center;
+  background: var(--white);
+  border-radius: 16px;
+  padding: 1rem 0.6rem;
+  box-shadow: 0 14px 32px rgba(15, 39, 64, 0.14);
+  font-size: clamp(0.72rem, 1.5vw, 0.95rem);
+  animation: ad-pop 0.4s ease-out both;
+}
+
+.ad-tile svg {
+  color: var(--navy-dark);
+  background: var(--orange);
+  border-radius: 12px;
+  padding: 8px;
+  box-sizing: content-box;
+}
+
+.ad-tile b {
+  color: var(--ink);
+}
+
+/* 07 · support (photo in orange ring + card) */
+.ad-support {
+  position: relative;
+  height: clamp(170px, 30vw, 290px);
+}
+
+.ad-support-photo {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 8px solid var(--orange);
+  background: #fde7c0;
+}
+
+.ad-support-card {
+  position: absolute;
+  left: -16%;
+  bottom: -6%;
+  width: min(50%, 200px);
+  background: var(--white);
+  border-radius: 12px;
+  padding: 0.6rem;
+  box-shadow: 0 16px 34px rgba(15, 39, 64, 0.2);
+  display: grid;
+  gap: 0.3rem;
+  font-size: clamp(0.6rem, 1.2vw, 0.78rem);
+}
+
+.ad-support-card h4 {
+  margin: 0.15rem 0 0;
+  font-size: 1.05em;
+  color: #1f2937;
+}
+
+.ad-support-row {
+  white-space: nowrap;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.4rem;
+  background: #f3f4f6;
+  border-radius: 7px;
+  padding: 0.3rem 0.45rem;
+  animation: ad-rise 0.35s ease-out both;
+}
+
+.ad-support-row i {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  font-style: normal;
+  font-weight: 700;
+  color: var(--navy);
+  border: 1.5px solid var(--navy);
+  border-radius: 5px;
+  padding: 0 0.3rem;
+  white-space: nowrap;
+}
+
+.ad-support-row.calling {
+  background: #dcfce7;
+}
+
+.ad-support-row.calling i {
+  color: #fff;
+  background: #16a34a;
+  border-color: #16a34a;
+  animation: ad-call-pulse 0.8s ease-in-out infinite;
+}
+
+@keyframes ad-call-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(22, 163, 74, 0);
+  }
+}
+
+/* 08 · riders ledger */
+.ad-rider {
+  background: var(--navy-dark);
+  color: #cbd5e1;
+  border-radius: 18px;
+  padding: 1rem;
+  box-shadow: 0 20px 45px rgba(15, 39, 64, 0.25);
+  display: grid;
+  gap: 0.6rem;
+  font-size: clamp(0.72rem, 1.5vw, 0.95rem);
+}
+
+.ad-rider-loads {
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: rgba(245, 166, 35, 0.15);
+  color: var(--orange);
+  border-radius: 10px;
+  padding: 0.45rem 0.7rem;
+}
+
+.ad-rider-loads b {
+  margin-left: auto;
+  color: var(--white);
+}
+
+.ad-rider-ledger {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.ad-rider-ledger > div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.ad-rider-ledger b {
+  color: var(--white);
+  font-variant-numeric: tabular-nums;
+}
+
+.ad-rider-ledger .zero b {
+  color: #4ade80;
+  animation: ad-pop 0.35s ease-out both;
+}
+
+.ad-rider-total {
+  border-top: 1px dashed rgba(255, 255, 255, 0.25);
+  padding-top: 0.45rem;
+  font-size: 1.2em;
+}
+
+.ad-rider-total b {
+  color: var(--orange);
+}
+
+.ad-rider-settled {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  background: #16a34a;
+  color: var(--white);
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 0.4rem 0.8rem;
+  animation: ad-pop 0.4s ease-out both;
+}
+
+@media (max-width: 640px) {
+  .ad-support {
+    height: 210px;
+  }
+
+  .ad-support-card {
+    left: 0;
+  }
+}
