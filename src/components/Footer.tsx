@@ -1,6 +1,6 @@
 import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { Logo } from "./Logo";
-import { ADMIN_LOGIN_URL, LOGIN_URL, PHONE_DISPLAY, RIDER_LOGIN_URL, TRACK_URL, WHATSAPP_URL } from "../config";
+import { ADMIN_LOGIN_URL, CONTACT_EMAIL, LOGIN_URL, PHONE_DISPLAY, RIDER_LOGIN_URL, TRACK_URL, WHATSAPP_URL } from "../config";
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -61,7 +61,7 @@ export function Footer() {
               </a>
             </li>
             <li>
-              <Mail size={16} /> info@zuhaexpress.com
+              <Mail size={16} /> <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
             </li>
           </ul>
         </div>
