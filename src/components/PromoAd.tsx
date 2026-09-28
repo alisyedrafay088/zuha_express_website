@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Bike, BrainCircuit, CheckCircle2, MapPin, Pause, Play, RotateCcw, ScanSearch, Truck, Volume2, VolumeX } from "lucide-react";
-import { LOGIN_URL } from "../config";
+import { ERP_URL, LOGIN_URL, WEBSITE_URL, displayUrl } from "../config";
 import "./PromoAd.css";
 import "./PromoAdFeatures.css";
 import { AdMusic } from "./adAudio";
@@ -323,9 +323,16 @@ function Cta() {
       <h3 className="ad-huge ad-slam" style={{ animationDelay: "0.8s" }}>
         Aaj hi shuru karo.
       </h3>
-      <p className="ad-url ad-rise" style={{ animationDelay: "1.4s" }}>
-        zuhaexpress.com
-      </p>
+      <div className="ad-urls">
+        <a href={WEBSITE_URL} className="ad-url ad-rise" style={{ animationDelay: "1.4s" }}>
+          <small>Website</small>
+          {displayUrl(WEBSITE_URL)}
+        </a>
+        <a href={ERP_URL} className="ad-url ad-rise" style={{ animationDelay: "1.7s" }}>
+          <small>Seller Portal</small>
+          {displayUrl(ERP_URL)}
+        </a>
+      </div>
     </div>
   );
 }

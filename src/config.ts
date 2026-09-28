@@ -1,6 +1,10 @@
 const erpUrl = ((import.meta.env.VITE_ERP_URL as string | undefined) || "https://www.zuhaexpress.com").replace(/\/$/, "");
 
 export const ERP_URL = erpUrl;
+/** Public address of this marketing site (the ERP keeps the main www domain). */
+export const WEBSITE_URL = ((import.meta.env.VITE_WEBSITE_URL as string | undefined) || "https://ship.zuhaexpress.com").replace(/\/$/, "");
+/** "https://www.zuhaexpress.com" -> "www.zuhaexpress.com" for showing on screen. */
+export const displayUrl = (url: string) => url.replace(/^https?:\/\//, "");
 export const LOGIN_URL = `${erpUrl}/customer/login`;
 export const RIDER_LOGIN_URL = `${erpUrl}/rider/login`;
 export const ADMIN_LOGIN_URL = `${erpUrl}/login`;
