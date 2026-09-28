@@ -1,5 +1,5 @@
 import { Header } from "./components/Header";
-import { Hero } from "./components/Hero";
+import { VideoHero } from "./components/VideoHero";
 import { PromoAd } from "./components/PromoAd";
 import {
   Coverage,
@@ -20,18 +20,20 @@ import { Partners } from "./components/Partners";
 import { Integrations } from "./components/Integrations";
 import { KeySolutions } from "./components/KeySolutions";
 import { SellerPortal } from "./components/SellerPortal";
+import { PortalShowcase } from "./components/PortalShowcase";
 
 export default function App() {
   return (
     <>
       <Header />
       <main>
-        <Hero />
+        <VideoHero />
         <PromoAd />
         <TrustStrip />
         <Services />
         <KeySolutions />
         <SellerPortal />
+        <PortalShowcase />
         <Partners />
         <WhyChoose />
         <Integrations />
