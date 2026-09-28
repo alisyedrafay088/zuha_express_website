@@ -12,7 +12,7 @@ export const TRACK_URL = `${erpUrl}/track`;
 export const trackingUrl = (trackingId: string) => `${TRACK_URL}?id=${encodeURIComponent(trackingId)}`;
 
 /** Shown in the footer; switch to a business address (e.g. info@zuhaexpress.com) once that mailbox exists. */
-export const CONTACT_EMAIL = (import.meta.env.VITE_CONTACT_EMAIL as string | undefined) || "rafaysyed819@gmail.com";
+export const CONTACT_EMAIL = (import.meta.env.VITE_CONTACT_EMAIL as string | undefined) || "zuhaexpress92@gmail.com";
 
 const whatsappNumber = (import.meta.env.VITE_WHATSAPP_NUMBER as string | undefined) || "923343174541";
 export const WHATSAPP_URL = `https://wa.me/${whatsappNumber}`;
