@@ -52,7 +52,7 @@ export function Footer() {
           <h4>Contact</h4>
           <ul className="footer-contact">
             <li>
-              <MapPin size={16} /> KL-6, Sector 7-D, Orangi Town, near Banarsi Market, Karachi, Pakistan
+              <MapPin size={16} /> Federal B Area, Karachi, Pakistan
             </li>
             <li>
               <Phone size={16} />{" "}
