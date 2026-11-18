@@ -52,6 +52,9 @@ export function Footer() {
           <h4>Contact</h4>
           <ul className="footer-contact">
             <li>
+              <MapPin size={16} /> Banarsi Kapra Market, Orangi Town, Karachi, Pakistan
+            </li>
+            <li>
               <MapPin size={16} /> Federal B Area, Karachi, Pakistan
             </li>
             <li>
